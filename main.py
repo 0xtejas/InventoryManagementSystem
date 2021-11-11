@@ -1,6 +1,8 @@
 import mysql.connector
 from mysql.connector import errorcode
 import json
+import hashlib.md5 as md5
+import getpass
 
 DB_NAME = "inventory"
 with open("tables.json","r") as f:
@@ -24,6 +26,12 @@ def menu():
     inp = input("Enter your choice: ")
     return inp
 
+################### PASSWORD HASHING FUNCTION ###################
+def hash_password(password):
+    return md5(password.encode()).hexdigest()
+
+
+################### CREATE DATABASE #################
 
 def create_database(cursor):
     
@@ -47,6 +55,8 @@ def create_database(cursor):
             exit(1)
 
 
+################### Initizalizing the Database and Table ###################
+
 def initialize(con): 
     cursor = con.cursor()
     create_database(cursor)
@@ -68,7 +78,7 @@ def initialize(con):
     cursor.close()
     con.close()
 
-# FUNCTIONS FOR EACH TABLE 
+################### STANDARD QUERY STRUCTURE ###################
 
 def insert_data(cursor,table_name,values):
   stmt = "INSERT INTO {table_name} {values}"
@@ -102,7 +112,9 @@ def search_data(cursor,table_name,where):
   for row in rows:
     print(row)
 
-    
+
+################### MAIN  ###################
+
 if __name__ == '__main__':
     # TEST MYSQL CONNECTIONS
     con = mysql.connector.connect(
