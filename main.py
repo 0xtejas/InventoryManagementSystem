@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 import json
-import hashlib.md5 as md5
+import hashlib 
 import getpass
 
 DB_NAME = "inventory"
@@ -28,7 +28,7 @@ def menu():
 
 ################### PASSWORD HASHING FUNCTION ###################
 def hash_password(password):
-    return md5(password.encode()).hexdigest()
+    return hashlib.md5(password.encode()).hexdigest()
 
 
 ################### CREATE DATABASE #################
