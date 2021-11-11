@@ -6,6 +6,25 @@ DB_NAME = "inventory"
 with open("tables.json","r") as f:
     TABLES = json.load(f)
 
+def menu():
+    print("""
+    1.  User Table
+    2.  Product Table
+    3.  Product Category Table
+    4.  Product Meta Table
+    5.  Order Table
+    6.  Order Item Table
+    7.  Item Table
+    8.  Brand Table
+    9.  Transaction Table
+    10. Address Table
+    11. Category Table
+    12. Exit 
+    """)
+    inp = input("Enter your choice: ")
+    return inp
+
+
 def create_database(cursor):
     
     try:
@@ -28,12 +47,9 @@ def create_database(cursor):
             exit(1)
 
 
-
 def initialize(con): 
     cursor = con.cursor()
     create_database(cursor)
-
-    
 
 # TABLE CREATION    
     for table_name in TABLES:
@@ -52,15 +68,60 @@ def initialize(con):
     cursor.close()
     con.close()
 
+# FUNCTIONS FOR EACH TABLE 
+
+def insert_data(cursor,table_name,values):
+  stmt = "INSERT INTO {table_name} {values}"
+  cursor.execute(stmt.format(table_name=table_name,values=values))
+  con.commit()
+    
+def display_data(cursor,table_name):
+  stmt = "SELECT * FROM {table_name}"
+  cursor.execute(stmt.format(table_name=table_name))
+  rows = cursor.fetchall()
+  for row in rows:
+    print(row)
+
+
+
+def update_data(cursor,table_name,values,where):
+  stmt = "UPDATE {table_name} SET {values} WHERE {where}"
+  cursor.execute(stmt.format(table_name=table_name,values=values,where=where))
+  con.commit()
+
+def delete_data(cursor,table_name,where):
+  stmt = "DELETE FROM {table_name} WHERE {where}"
+  cursor.execute(stmt.format(table_name=table_name,where=where))
+  con.commit()
+   
+
+def search_data(cursor,table_name,where):
+  stmt = "SELECT * FROM {table_name} WHERE {where}"  
+  cursor.execute(stmt.format(table_name=table_name,where=where))
+  rows = cursor.fetchall()
+  for row in rows:
+    print(row)
+
+    
 if __name__ == '__main__':
     # TEST MYSQL CONNECTIONS
     con = mysql.connector.connect(
+      host='localhost',
+      user='root',
+      passwd='root',
+    )
+    if con.is_connected():
+      print('Connected to MySQL database')
+      initialize(con)
+      con.close()
+      con = mysql.connector.connect(
         host='localhost',
         user='root',
         passwd='root',
-    )
-    if con.is_connected():
-        print('Connected to MySQL database')
-        initialize(con)
+        database=DB_NAME
+      )
+      choice = menu()
+      
+    
     else:
         print('Connection failed')
