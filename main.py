@@ -100,7 +100,7 @@ def user_table():
     elif inp == "4":
       pass
     elif inp == "5":
-      pass
+      display_data(con,"users")
     elif inp == "6":
       pass
     
