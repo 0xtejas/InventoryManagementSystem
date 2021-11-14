@@ -4,6 +4,7 @@ import json
 import hashlib 
 import getpass
 from datetime import datetime
+from os import system
 
 DB_NAME = "inventory"
 with open("tables.json","r") as f:
@@ -14,9 +15,8 @@ with open("tables.json","r") as f:
 def insert_data(con,table_name,values):
     cursor = con.cursor()
     stmt = "INSERT INTO {table_name} {values}"
-    print(stmt.format(table_name=table_name,values=values))
+    cursor.execute(stmt.format(table_name=table_name,values=values))
     con.commit()
-    print(cursor.statement)
     
 def display_data(cursor,table_name):
   stmt = "SELECT * FROM {table_name}"
@@ -67,7 +67,27 @@ def user_table():
     print(common_menu_banner.format("User"))
     inp = input("Enter your choice: ")
     if inp == "1":
-        pass
+        try:
+            roll_id = input("Enter Roll ID: ")
+            first_name = input("Enter First Name: ")
+            middle_name = input("Enter Middle Name: ")
+            last_name = input("Enter Last Name: ")
+            username = input("Enter Username Name: ")
+            password = getpass.getpass("Enter Password: ")
+            email = input("Enter Email ID: ")
+            mobile = input("Enter Mobile Number: ")
+            now = datetime.now()
+            registeredAt =  now.strftime("%Y-%m-%d %H:%M:%S")
+
+            password = hash_password(password)
+            # insert into `users`  values('1','V','M','S','vm','9944145','bm@gmail.com','d73fbca9f19a294db16d18e225c61472','2021-11-14 21:32:17);
+            values = "(`roleId`, `firstName`, `middleName`, `lastName`, `username`, `mobile`, `email`, `passwordHash`, `registeredAt`) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(roll_id,first_name,middle_name,last_name,username,mobile,email,password,registeredAt)
+            insert_data(con, "users", values)
+        except mysql.connector.IntegrityError:
+            system("clear||cls")
+            print("The Value Entered is DUPLICATE or Tampers the INTEGRITY of DataBase")
+            user_table()
+
     elif inp == "2":
       pass
     elif inp == "3":
