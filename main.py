@@ -86,6 +86,8 @@ def user_table():
             # insert into `users`  values('1','V','M','S','vm','9944145','bm@gmail.com','d73fbca9f19a294db16d18e225c61472','2021-11-14 21:32:17);
             values = "(`roleId`, `firstName`, `middleName`, `lastName`, `username`, `mobile`, `email`, `passwordHash`, `registeredAt`) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(roll_id,first_name,middle_name,last_name,username,mobile,email,password,registeredAt)
             insert_data(con, "users", values)
+            con.commit()
+            con.close()
         except mysql.connector.IntegrityError:
             system("clear||cls")
             print("The Value Entered is DUPLICATE or Tampers the INTEGRITY of DataBase")
