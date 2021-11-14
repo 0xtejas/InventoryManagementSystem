@@ -18,24 +18,27 @@ def insert_data(con,table_name,values):
     cursor.execute(stmt.format(table_name=table_name,values=values))
     con.commit()
     
-def display_data(cursor,table_name):
-  stmt = "SELECT * FROM {table_name}"
-  cursor.execute(stmt.format(table_name=table_name))
-  rows = cursor.fetchall()
-  for row in rows:
-    print(row)
+def display_data(con,table_name):
+    cursor = con.cursor()
+    stmt = "SELECT * FROM {table_name}"
+    cursor.execute(stmt.format(table_name=table_name))
+    rows = cursor.fetchall()
+    for row in rows:
+      print(row)
 
 
 
-def update_data(cursor,table_name,values,where):
-  stmt = "UPDATE {table_name} SET {values} WHERE {where}"
-  cursor.execute(stmt.format(table_name=table_name,values=values,where=where))
-  con.commit()
+def update_data(con,table_name,values,where):
+    cursor = con.cursor()
+    stmt = "UPDATE {table_name} SET {values} WHERE {where}"
+    cursor.execute(stmt.format(table_name=table_name,values=values,where=where))
+    con.commit()
 
-def delete_data(cursor,table_name,where):
-  stmt = "DELETE FROM {table_name} WHERE {where}"
-  cursor.execute(stmt.format(table_name=table_name,where=where))
-  con.commit()
+def delete_data(con,table_name,where):
+    cursor = con.cursor()
+    stmt = "DELETE FROM {table_name} WHERE {where}"
+    cursor.execute(stmt.format(table_name=table_name,where=where))
+    con.commit()
    
 
 def search_data(cursor,table_name,where):
