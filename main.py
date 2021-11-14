@@ -96,7 +96,9 @@ def user_table():
     elif inp == "2":
       pass
     elif inp == "3":
-      pass
+      display_data(con,"users")
+      id = input("Enter ID of the user to be deleted: ")
+      delete_data(con, "users",id)
     elif inp == "4":
       pass
     elif inp == "5":
