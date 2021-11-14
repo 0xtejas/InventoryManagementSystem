@@ -101,7 +101,54 @@ def user_table():
       id = input("Enter ID of the user to be deleted: ")
       delete_data(con, "users",id)
     elif inp == "4":
-      pass
+        print("""
+        1. Search by Roll ID
+        2. Search by First Name
+        3. Search by Middle Name
+        4. Search by Last Name
+        5. Search by Mobile
+        6. Search by Email
+        7. Search by Username
+        8. Search by First Name
+        9. Search by Registered Time
+        10. Search by Last Login Time
+        """)
+        inp = input("Enter your choice: ")
+        if inp == "1":
+            roll_id = input("Enter Roll ID: ")
+            search_data(con,"users","roleId = '{}'".format(roll_id))
+        elif inp == "2":
+            first_name = input("Enter First Name: ")
+            search_data(con,"users","firstName = '{}'".format(first_name))
+        elif inp == "3":
+            middle_name = input("Enter Middle Name: ")
+            search_data(con,"users","middleName = '{}'".format(middle_name))
+        elif inp == "4":
+            last_name = input("Enter Last Name: ")
+            search_data(con,"users","lastName = '{}'".format(last_name))
+        elif inp == "5":
+            mobile = input("Enter Mobile Number: ")
+            search_data(con,"users","mobile = '{}'".format(mobile))
+        elif inp == "6":
+            email = input("Enter Email ID: ")
+            search_data(con,"users","email = '{}'".format(email))
+        elif inp == "7":
+            username = input("Enter Username Name: ")
+            search_data(con,"users","username = '{}'".format(username))
+        elif inp == "8":
+            first_name = input("Enter First Name: ")
+            search_data(con,"users","firstName = '{}'".format(first_name))
+        elif inp == "9":
+            registeredAt = input("Enter Registered Time: ")
+            search_data(con,"users","registeredAt = '{}'".format(registeredAt))
+        elif inp == "10":
+            lastLoginAt = input("Enter Last Login Time: ")
+            search_data(con,"users","lastLoginAt = '{}'".format(lastLoginAt))
+        else:
+            system("clear||cls")
+            print("Invalid Choice")
+            user_table()
+            
     elif inp == "5":
       display_data(con,"users")
     elif inp == "6":
