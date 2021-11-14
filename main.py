@@ -66,7 +66,8 @@ def user_table():
         host='localhost',
         user='root',
         passwd='root',
-        database=DB_NAME
+        database=DB_NAME,
+        buffered=True
       )
     print(common_menu_banner.format("User"))
     inp = input("Enter your choice: ")
@@ -95,7 +96,64 @@ def user_table():
             user_table()
 
     elif inp == "2":
-      pass
+        cols = extract_columns(con,"users")
+        index = 1
+        for i in cols[1:-2]:
+            print(f"{index}.Update {i}",end='\n')
+            index += 1
+        inp = input("Enter your choice: ")
+        if inp == "1":
+            roll_id_old = input("Enter OLD Roll ID: ")
+            roll_id_new = input("Enter NEW Roll ID: ")
+            update_data(con,"users",f"`roleId`='{roll_id_new}'",f"`roleId`='{roll_id_old}'")
+            con.commit()
+            con.close()
+        elif inp == "2":
+            first_name_old = input("Enter OLD First Name: ")
+            first_name_new = input("Enter NEW First Name: ")
+            update_data(con,"users",f"`firstName`='{first_name_new}'",f"`firstName`='{first_name_old}'")
+            con.commit()
+            con.close()
+        elif inp == "3":
+            middle_name_old = input("Enter OLD Middle Name: ")
+            middle_name_new = input("Enter NEW Middle Name: ")
+            update_data(con,"users",f"`middleName`='{middle_name_new}'",f"`middleName`='{middle_name_old}'")
+            con.commit()
+            con.close()
+        elif inp == "4":
+            last_name_old = input("Enter OLD Last Name: ")
+            last_name_new = input("Enter NEW Last Name: ")
+            update_data(con,"users",f"`lastName`='{last_name_new}'",f"`lastName`='{last_name_old}'")
+            con.commit()
+            con.close()
+        elif inp == "5":
+            username_old = input("Enter OLD Username: ")
+            username_new = input("Enter NEW Username: ")
+            update_data(con,"users",f"`username`='{username_new}'",f"`username`='{username_old}'")
+            con.commit()
+            con.close()
+        elif inp == "6":
+            mobile_old = input("Enter OLD Mobile: ")
+            mobile_new = input("Enter NEW Mobile: ")
+            update_data(con,"users",f"`mobile`='{mobile_new}'",f"`mobile`='{mobile_old}'")
+            con.commit()
+            con.close()
+        elif inp == "7":
+            email_old = input("Enter OLD Email: ")
+            email_new = input("Enter NEW Email: ")
+            update_data(con,"users",f"`email`='{email_new}'",f"`email`='{email_old}'")
+            con.commit()
+            con.close()
+        elif inp == "8":
+            password_old = getpass.getpass("Enter OLD Password: ")
+            password_new = getpass.getpass("Enter NEW Password: ")
+            password_new = hash_password(password_new)
+            password_old = hash_password(password_old)
+            update_data(con,"users",f"`passwordHash`='{password_new}'",f"`passwordHash`='{password_old}'")
+            con.commit()
+            con.close()
+
+
     elif inp == "3":
       display_data(con,"users")
       id = input("Enter ID of the user to be deleted: ")
@@ -148,7 +206,7 @@ def user_table():
             system("clear||cls")
             print("Invalid Choice")
             user_table()
-            
+
     elif inp == "5":
       display_data(con,"users")
     elif inp == "6":
@@ -189,7 +247,11 @@ def category_table():
 def address_table(options):
     pass
 
-
+def extract_columns(con,table_name):
+    cursor = con.cursor()
+    cursor.execute("SELECT * FROM {}".format(table_name))
+    field_names = [i[0] for i in cursor.description]
+    return field_names
 
 
 def menu():
