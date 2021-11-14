@@ -42,11 +42,12 @@ def delete_data(con,table_name,where):
    
 
 def search_data(cursor,table_name,where):
-  stmt = "SELECT * FROM {table_name} WHERE {where}"  
-  cursor.execute(stmt.format(table_name=table_name,where=where))
-  rows = cursor.fetchall()
-  for row in rows:
-    print(row)
+    cursor = con.cursor()
+    stmt = "SELECT * FROM {table_name} WHERE {where}"  
+    cursor.execute(stmt.format(table_name=table_name,where=where))
+    rows = cursor.fetchall()
+    for row in rows:
+      print(row)
 
 ####### MENU FUNCTIONS #######
 
