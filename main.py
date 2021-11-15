@@ -238,11 +238,11 @@ def item_table(options):
     elif options == "2":
         print(common_menu_banner.format("Item Category"))
         pass
-def transaction_table(options):
-    pass
+def transaction_table():
+    print(common_menu_banner.format("Transactions"))
 
 def category_table():
-    pass
+    print(common_menu_banner.format("Category"))
 
 def address_table():
     con = mysql.connector.connect(
