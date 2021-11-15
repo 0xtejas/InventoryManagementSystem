@@ -268,6 +268,57 @@ def transaction_table():
             system("clear||cls")
             print("The Value Entered is DUPLICATE or Tampers the INTEGRITY of DataBase")
             transaction_table()
+    elif inp == "2":
+        cols = extract_column_names(con,"transaction")
+        myTable = PrettyTable(cols)
+        values = display_data(con,"transaction")
+
+        for i in values:
+            myList = list(i)
+            myTable.add_row(myList)
+        print(myTable)
+        
+        index = 1
+        for i in cols[1:-1]:
+            print(f"{index}. Update {i}",end='\n')
+            index += 1
+        inp = input("Enter your choice: ")    
+        id = input("Enter the ID: ")
+
+        if inp == "1":
+            userId_new = input("Enter your user ID: ")
+            update_data(con,"transaction",f"`userId` = '{userId_new}'",f"`id` = '{id}'")
+        elif inp == "2":
+            orderId_new = input("Enter your order ID: ")
+            update_data(con,"transaction",f"`orderId` = '{orderId_new}'",f"`id` = '{id}'")
+        elif inp == "3":
+            code_new = input("Enter your code: ")
+            update_data(con,"transaction",f"`code` = '{code_new}'",f"`id` = '{id}'")
+        elif inp == "4":
+            type_new = input("Enter your type: ")
+            update_data(con,"transaction",f"`type` = '{type_new}'",f"`id` = '{id}'")
+        elif inp == "5":
+            mode_new = input("Enter your mode: ")
+            update_data(con,"transaction",f"`mode` = '{mode_new}'",f"`id` = '{id}'")
+        elif inp == "6":
+            amount_new = input("Enter your amount: ")
+            update_data(con,"transaction",f"`amount` = '{amount_new}'",f"`id` = '{id}'")
+        elif inp == "7":
+            status_new = input("Enter your status: ")
+            update_data(con,"transaction",f"`status` = '{status_new}'",f"`id` = '{id}'")
+        elif inp == "8":
+            createdAt_new = input("Enter your createdAt: ")
+            update_data(con,"transaction",f"`createdAt` = '{createdAt_new}'",f"`id` = '{id}'")
+        else:
+            system("clear||cls")
+            print("Invalid input!")
+            transaction_table()
+        
+        now = datetime.now()
+        updated_at_new =  now.strftime("%Y-%m-%d %H:%M:%S")
+        update_data(con,"transaction",f"`updatedAt`='{updated_at_new}'",f"`id`= {id}")
+        con.commit()
+        con.close()
 
 
     elif inp == "2":
