@@ -32,7 +32,6 @@ def update_data(con,table_name,values,where):
     cursor = con.cursor()
     stmt = "UPDATE {table_name} SET {values} WHERE {where}"
     cursor.execute(stmt.format(table_name=table_name,values=values,where=where))
-    print(cursor.statement)
     con.commit()
 
 def delete_data(con,table_name,where):
@@ -334,7 +333,50 @@ def transaction_table():
         id = input("Enter ID of the user to be deleted: ")
         delete_data(con, "transaction", f"`id` = '{id}'")
     elif inp == "4":
-        pass
+        cols = extract_column_names(con,"transaction")
+        index = 1
+        cols.pop(8)
+        for i in cols[1:]:
+            print(f"{index}. Select by {i}",end='\n')
+            index += 1
+        inp = input("Enter your choice: ") 
+        if inp == "1":
+            userId = input("Enter your user ID: ")
+            values = search_data(con,"transaction",f"`userId` = '{userId}'")
+        elif inp == "2":
+            orderId = input("Enter your order ID: ")
+            values = search_data(con,"transaction",f"`orderId` = '{orderId}'")
+        elif inp == "3":
+            code = input("Enter your code: ")
+            values = search_data(con,"transaction",f"`code` = '{code}'")
+        elif inp == "4":
+            type = input("Enter your type: ")
+            values = search_data(con,"transaction",f"`type` = '{type}'")
+        elif inp == "5":
+            mode = input("Enter your mode: ")
+            values = search_data(con,"transaction",f"`mode` = '{mode}'")
+        elif inp == "6":
+            amount = input("Enter your amount: ")
+            values = search_data(con,"transaction",f"`amount` = '{amount}'")
+        elif inp == "7":
+            status = input("Enter your status: ")
+            values = search_data(con,"transaction",f"`status` = '{status}'")
+        elif inp == "8":
+            createdAt = input("Enter your createdAt: ")
+            values = search_data(con,"transaction",f"`createdAt` = '{createdAt}'")
+        else:
+            system("clear||cls")
+            print("Invalid input!")
+            transaction_table()
+
+        cols = extract_column_names(con,"transaction")
+        myTable = PrettyTable(cols)
+        values = display_data(con,"transaction")
+        for i in values:
+            myList = list(i)
+            myTable.add_row(myList)
+        print(myTable)
+
     elif inp == "5":
         pass
 
