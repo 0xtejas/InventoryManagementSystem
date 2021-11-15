@@ -261,8 +261,43 @@ def transaction_table(options):
 def category_table():
     pass
 
-def address_table(options):
-    pass
+def address_table():
+    con = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        passwd='root',
+        database=DB_NAME,
+        buffered=True
+      )
+    print(common_menu_banner.format("Address"))
+    inp = input("Enter your choice: ")
+    if inp == "1":
+        try:
+            userID = input("Enter your user ID: ")
+            orderID = input("Enter your order ID: ")
+            firstName = input("Enter your first name: ")
+            middleName = input("Enter your middle name: ")
+            lastName = input("Enter your last name: ")
+            mobile = input("Enter your mobile number: ")
+            email = input("Enter Email ID: ")
+            line1 = input("Enter your line 1: ")
+            line2 = input("Enter your line 2: ")
+            city = input("Enter your city: ")
+            province = input("Enter your province: ")
+            country = input("Enter your country: ")
+            now = datetime.now()
+            createdAt = now.strftime("%Y-%m-%d %H:%M:%S") 
+            
+
+            values = "(`userId`, `orderId`, `firstName`, `middleName`, `lastName`, `mobile`, `email`, `line1`, `line2`, `city`, `province`, `country`, `createdAt`) values({},{},'{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(userID,orderID,firstName,middleName,lastName,mobile,email,line1,line2,city,province,country,createdAt)
+            # print(values)
+            insert_data(con,"address", values)
+
+        except mysql.connector.IntegrityError:
+            system("clear||cls")
+            print("Check if you have filled values in Order table first!")
+            order_table()
+
 
 def extract_column_names(con,table_name):
     cursor = con.cursor()
