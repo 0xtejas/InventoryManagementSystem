@@ -231,29 +231,24 @@ def user_table():
     
 def product_table(options):
     if options == "1":
-        # product table 
-        pass
+        print(common_menu_banner.format("Product Table"))
     elif options == "2":
-        # product category table
-        pass
+        print(common_menu_banner.format("Product Category Table"))
     elif options == "3":
-        # product meta table
-        pass
+        print(common_menu_banner.format("Product Meta Table"))
     
 def order_table(options):
     if options == "1":
-        # order table 
-        pass
+        print(common_menu_banner.format("Order"))
     elif options == "2":
-        # order item table
-        pass
+        print(common_menu_banner.format("Order Item"))
 
 def item_table(options):
     if options == "1":
-        # item table 
+        print(common_menu_banner.format("Item"))
         pass
     elif options == "2":
-        # brand table
+        print(common_menu_banner.format("Item Category"))
         pass
 def transaction_table(options):
     pass
@@ -290,7 +285,7 @@ def address_table():
             
 
             values = "(`userId`, `orderId`, `firstName`, `middleName`, `lastName`, `mobile`, `email`, `line1`, `line2`, `city`, `province`, `country`, `createdAt`) values({},{},'{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(userID,orderID,firstName,middleName,lastName,mobile,email,line1,line2,city,province,country,createdAt)
-            # print(values)
+
             insert_data(con,"address", values)
 
         except mysql.connector.IntegrityError:
