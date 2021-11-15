@@ -321,10 +321,19 @@ def transaction_table():
         con.close()
 
 
-    elif inp == "2":
         pass
     elif inp == "3":
-        pass
+        cols = extract_column_names(con,"transaction")
+        myTable = PrettyTable(cols)
+        values = display_data(con,"transaction")
+        for i in values:
+            myList = list(i)
+            myTable.add_row(myList)
+        print(myTable)
+
+        display_data(con,"transaction")
+        id = input("Enter ID of the user to be deleted: ")
+        delete_data(con, "transaction", f"`id` = '{id}'")
     elif inp == "4":
         pass
     elif inp == "5":
