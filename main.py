@@ -357,7 +357,10 @@ def address_table():
         update_data(con,"address",f"`updatedAt`='{updated_at_new}'",f"`updatedAt`= NULL")
         con.commit()
         con.close()
-
+    elif inp == "3":
+        display_data(con,"address")
+        id = input("Enter ID of the address to be deleted: ")
+        delete_data(con, "users",id)
 
 
 def extract_column_names(con,table_name):
