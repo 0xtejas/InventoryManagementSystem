@@ -418,7 +418,14 @@ def address_table():
             myList = list(i)
             myTable.add_row(myList)
         print(myTable)
-
+    elif inp == "5":
+        cols = extract_column_names(con,"address")
+        myTable = PrettyTable(cols)
+        values = display_data(con,"address")
+        for i in values:
+            myList = list(i)
+            myTable.add_row(myList)
+        print(myTable)       
 def extract_column_names(con,table_name):
     cursor = con.cursor()
     cursor.execute("SELECT * FROM {}".format(table_name))
