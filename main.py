@@ -85,7 +85,6 @@ def user_table():
             registeredAt =  now.strftime("%Y-%m-%d %H:%M:%S")
 
             password = hash_password(password)
-            # insert into `users`  values('1','V','M','S','vm','9944145','bm@gmail.com','d73fbca9f19a294db16d18e225c61472','2021-11-14 21:32:17);
             values = "(`roleId`, `firstName`, `middleName`, `lastName`, `username`, `mobile`, `email`, `passwordHash`, `registeredAt`) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(roll_id,first_name,middle_name,last_name,username,mobile,email,password,registeredAt)
             insert_data(con, "users", values)
             con.commit()
@@ -239,7 +238,44 @@ def item_table(options):
         print(common_menu_banner.format("Item Category"))
         pass
 def transaction_table():
-    print(common_menu_banner.format("Transactions"))
+    con = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        passwd='root',
+        database=DB_NAME,
+        buffered=True
+      )
+    print(common_menu_banner.format("Transaction"))
+    inp = input("Enter your choice: ")
+    if inp == "1":
+        try:
+            userId = input("Enter your user ID: ")
+            orderId = input("Enter your order ID: ")
+            code = input("Enter your code: ")
+            type = input("Enter your type: ")
+            mode = input("Enter your mode: ")
+            amount = input("Enter your amount: ")
+            status = input("Enter your status: ")
+            now = datetime.now()   
+            createdAt = now.strftime("%Y-%m-%d %H:%M:%S")
+
+            values = "(`userId`, `orderId`, `code`, `type`, `mode`, `status`, `createdAt`) values('{}','{}','{}','{}','{}','{}','2021-11-15 20:29:12')".format(userId,orderId,code,type,mode,status,createdAt)
+            insert_data(con,"transaction",values)
+        except mysql.connector.Error:
+            system("clear||cls")
+            print("The Value Entered is DUPLICATE or Tampers the INTEGRITY of DataBase")
+            transaction_table()
+
+
+    elif inp == "2":
+        pass
+    elif inp == "3":
+        pass
+    elif inp == "4":
+        pass
+    elif inp == "5":
+        pass
+
 
 def category_table():
     print(common_menu_banner.format("Category"))
