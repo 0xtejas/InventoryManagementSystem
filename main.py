@@ -45,6 +45,7 @@ def search_data(cursor,table_name,where):
     cursor = con.cursor()
     stmt = "SELECT * FROM {table_name} WHERE {where}"  
     cursor.execute(stmt.format(table_name=table_name,where=where))
+    print(cursor.statement)
     rows = cursor.fetchall()
     return rows
 
@@ -460,8 +461,69 @@ def category_table():
 
         id = input("Enter ID of the user to be deleted: ")
         delete_data(con, "category", f"`id` = '{id}'")
+    elif inp == "4":
+        cols = extract_column_names(con,"category")
+        index = 1
+        for i in cols:
+            print(f"{index}. Select by {i}",end='\n')
+            index += 1
+        inp = input("Enter your choice: ")     
+        if inp == "1":
+            id = input("Enter ID: ")
+            values = search_data(con,"category",f"id = '{id}'")
+        elif inp == "2":
+            userId = input("Enter user ID: ")
+            values = search_data(con,"category",f"`userId`='{userId}'")
+        elif inp == "3":
+            orderId = input("Enter order ID: ")
+            values = search_data(con,"category",f"`orderId`='{orderId}'")
+        elif inp == "4":
+            firstName = input("Enter first name: ")
+            values = search_data(con,"category",f"`firstName`='{firstName}'")
+        elif inp == "5":
+            middleName = input("Enter middle name: ")
+            values = search_data(con,"category",f"`middleName`='{middleName}'")
+        elif inp == "6":
+            lastName = input("Enter last name: ")
+            values = search_data(con,"category",f"`lastName`='{lastName}'")
+        elif inp == "7":
+            mobile = input("Enter mobile: ")
+            values = search_data(con,"category",f"`mobile`='{mobile}'")
+        elif inp == "8":
+            email = input("Enter email: ")
+            values = search_data(con,"category",f"`email`='{email}'")
+        elif inp == "9":
+            line1 = input("Enter line 1: ")
+            values = search_data(con,"category",f"`line1`='{line1}'")
+        elif inp == "10":
+            line2 = input("Enter line 2: ")
+            values = search_data(con,"category",f"`line2`='{line2}'")
+        elif inp == "11":
+            city = input("Enter city: ")
+            values = search_data(con,"category",f"`city`='{city}'")
+        elif inp == "12":
+            province = input("Enter province: ")
+            values = search_data(con,"category",f"`province`='{province}'")
+        elif inp == "13":
+            country = input("Enter country: ")
+            values = search_data(con,"category",f"`country`='{country}'")
+        elif inp == "14":
+            createdAt = input("Enter created at: ")
+            values = search_data(con,"category",f"`createdAt`='{createdAt}'")
+        elif inp == "15":
+            updatedAt = input("Enter updated at: ")
+            values = search_data(con,"category",f"`updatedAt`='{updatedAt}'")
+        else:
+            system("clear||cls")
+            print("Invalid Choice")
 
-
+        cols = extract_column_names(con,"category")
+        myTable = PrettyTable(cols)
+        for i in values:
+            myList = list(i)
+            myTable.add_row(myList)
+        print(myTable)
+        
 def address_table():
     con = mysql.connector.connect(
         host='localhost',
