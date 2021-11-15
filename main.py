@@ -413,7 +413,43 @@ def category_table():
             system("clear||cls")
             print("The Value Entered is DUPLICATE or Tampers the INTEGRITY of DataBase")
             category_table()
+    elif inp == "2":
+        cols = extract_column_names(con,"category")
+        myTable = PrettyTable(cols)
+        values = display_data(con,"category")
+        for i in values:
+            myList = list(i)
+            myTable.add_row(myList)
+        print(myTable)
         
+        index = 1
+        for i in cols[1:]:
+            print(f"{index}. Update {i}",end='\n')
+            index += 1
+
+        inp = input("Enter your choice: ")    
+        id = input("Enter the ID: ")
+
+        if inp == "1":
+            parentId_new = input("Enter your parent ID: ")
+            update_data(con,"category",f"`parentId` = '{parentId_new}'",f"`id` = '{id}'")
+        elif inp == "2":
+            title_new = input("Enter your title: ")
+            update_data(con,"category",f"`title` = '{title_new}'",f"`id` = '{id}'")
+        elif inp == "3":
+            metaTitle_new = input("Enter your meta title: ")
+            update_data(con,"category",f"`metaTitle` = '{metaTitle_new}'",f"`id` = '{id}'")
+        elif inp == "4":
+            slug_new = input("Enter your slug: ")
+            update_data(con,"category",f"`slug` = '{slug_new}'",f"`id` = '{id}'")
+        elif inp == "5":
+            content_new = input("Enter your content: ")
+            update_data(con,"category",f"`content` = '{content_new}'",f"`id` = '{id}'")
+        else:
+            system("clear||cls")
+            print("Invalid input!")
+            category_table()
+
 
 def address_table():
     con = mysql.connector.connect(
