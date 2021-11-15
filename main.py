@@ -5,6 +5,7 @@ import hashlib
 import getpass
 from datetime import datetime
 from os import system
+from prettytable import PrettyTable 
 
 DB_NAME = "inventory"
 with open("tables.json","r") as f:
@@ -23,8 +24,7 @@ def display_data(con,table_name):
     stmt = "SELECT * FROM {table_name}"
     cursor.execute(stmt.format(table_name=table_name))
     rows = cursor.fetchall()
-    for row in rows:
-      print(row)
+    return rows
 
 
 
@@ -208,7 +208,16 @@ def user_table():
             user_table()
 
     elif inp == "5":
-      display_data(con,"users")
+        cols = extract_column_names(con,"users")
+        cols.pop(8)
+        myTable = PrettyTable(cols)
+        values = display_data(con,"users")
+        for i in values:
+            myList = list(i)
+            myList.pop(8)
+            myTable.add_row(myList)
+        print(myTable)
+
     elif inp == "6":
       pass
     
