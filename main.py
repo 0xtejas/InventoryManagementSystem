@@ -158,19 +158,13 @@ def user_table():
       id = input("Enter ID of the user to be deleted: ")
       delete_data(con, "users",id)
     elif inp == "4":
-        print("""
-        1. Search by Roll ID
-        2. Search by First Name
-        3. Search by Middle Name
-        4. Search by Last Name
-        5. Search by Mobile
-        6. Search by Email
-        7. Search by Username
-        8. Search by First Name
-        9. Search by Registered Time
-        10. Search by Last Login Time
-        """)
-        inp = input("Enter your choice: ")
+        cols = extract_column_names(con,"users")
+        index = 1
+        cols.pop(8)
+        for i in cols[1:]:
+            print(f"{index}. Select by {i}",end='\n')
+            index += 1
+        inp = input("Enter your choice: ")        
         if inp == "1":
             roll_id = input("Enter Roll ID: ")
             values = search_data(con,"users","roleId = '{}'".format(roll_id))
@@ -359,7 +353,7 @@ def address_table():
         con.close()
     elif inp == "3":
         display_data(con,"address")
-        id = input("Enter ID of the address to be deleted: ")
+        id = input("Enter ID of the user to be deleted: ")
         delete_data(con, "users",id)
 
 
