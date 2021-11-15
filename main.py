@@ -32,6 +32,7 @@ def update_data(con,table_name,values,where):
     cursor = con.cursor()
     stmt = "UPDATE {table_name} SET {values} WHERE {where}"
     cursor.execute(stmt.format(table_name=table_name,values=values,where=where))
+    print(cursor.statement)
     con.commit()
 
 def delete_data(con,table_name,where):
@@ -96,63 +97,47 @@ def user_table():
 
     elif inp == "2":
         cols = extract_column_names(con,"users")
+        cols.pop(8)
+        myTable = PrettyTable(cols)
+        values = display_data(con,"users")
+        for i in values:
+            myList = list(i)
+            myList.pop(8)
+            myTable.add_row(myList)
+        print(myTable)
+
         index = 1
         for i in cols[1:-2]:
             print(f"{index}.Update {i}",end='\n')
             index += 1
         inp = input("Enter your choice: ")
-        if inp == "1":
-            roll_id_old = input("Enter OLD Roll ID: ")
-            roll_id_new = input("Enter NEW Roll ID: ")
-            update_data(con,"users",f"`roleId`='{roll_id_new}'",f"`roleId`='{roll_id_old}'")
-            con.commit()
-            con.close()
+        id = input("Enter ID: ")
+        if  inp == "1":
+            id_new = int(input("Enter NEW ID: "))
+            update_data(con,"users",f"`roleId` = '{id_new}'",f"`id` = '{id}'")
         elif inp == "2":
-            first_name_old = input("Enter OLD First Name: ")
-            first_name_new = input("Enter NEW First Name: ")
-            update_data(con,"users",f"`firstName`='{first_name_new}'",f"`firstName`='{first_name_old}'")
-            con.commit()
-            con.close()
+            first_name = input("Enter NEW First Name: ")
+            update_data(con,"users",f"`firstName` = '{first_name}'",f"`id` = '{id}'")
         elif inp == "3":
-            middle_name_old = input("Enter OLD Middle Name: ")
-            middle_name_new = input("Enter NEW Middle Name: ")
-            update_data(con,"users",f"`middleName`='{middle_name_new}'",f"`middleName`='{middle_name_old}'")
-            con.commit()
-            con.close()
+            middle_name = input("Enter NEW Middle Name: ")
+            update_data(con,"users",f"`middleName` = '{middle_name}'",f"`id` = '{id}'")
         elif inp == "4":
-            last_name_old = input("Enter OLD Last Name: ")
-            last_name_new = input("Enter NEW Last Name: ")
-            update_data(con,"users",f"`lastName`='{last_name_new}'",f"`lastName`='{last_name_old}'")
-            con.commit()
-            con.close()
+            last_name = input("Enter NEW Last Name: ")
+            update_data(con,"users",f"`lastName` = '{last_name}'",f"`id` = '{id}'")
         elif inp == "5":
-            username_old = input("Enter OLD Username: ")
-            username_new = input("Enter NEW Username: ")
-            update_data(con,"users",f"`username`='{username_new}'",f"`username`='{username_old}'")
-            con.commit()
-            con.close()
+            username = input("Enter NEW Username: ")
+            update_data(con,"users",f"`username` = '{username}'",f"`id` = '{id}'")
         elif inp == "6":
-            mobile_old = input("Enter OLD Mobile: ")
-            mobile_new = input("Enter NEW Mobile: ")
-            update_data(con,"users",f"`mobile`='{mobile_new}'",f"`mobile`='{mobile_old}'")
-            con.commit()
-            con.close()
+            mobile = input("Enter NEW Mobile: ")
+            update_data(con,"users",f"`mobile` = '{mobile}'",f"`id` = '{id}'")
         elif inp == "7":
-            email_old = input("Enter OLD Email: ")
-            email_new = input("Enter NEW Email: ")
-            update_data(con,"users",f"`email`='{email_new}'",f"`email`='{email_old}'")
-            con.commit()
-            con.close()
-        elif inp == "8":
-            password_old = getpass.getpass("Enter OLD Password: ")
-            password_new = getpass.getpass("Enter NEW Password: ")
-            password_new = hash_password(password_new)
-            password_old = hash_password(password_old)
-            update_data(con,"users",f"`passwordHash`='{password_new}'",f"`passwordHash`='{password_old}'")
-            con.commit()
-            con.close()
-
-
+            email = input("Enter NEW Email: ")
+            update_data(con,"users",f"`email` = '{email}'",f"`id` = '{id}'")
+        else:
+            system("clear||cls")
+            print("Invalid Choice")
+            user_table()
+        
     elif inp == "3":
         cols = extract_column_names(con,"users")
         cols.pop(8)
