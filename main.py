@@ -376,9 +376,14 @@ def transaction_table():
             myList = list(i)
             myTable.add_row(myList)
         print(myTable)
-
     elif inp == "5":
-        pass
+        cols = extract_column_names(con,"transaction")
+        myTable = PrettyTable(cols)
+        values = display_data(con,"transaction")
+        for i in values:
+            myList = list(i)
+            myTable.add_row(myList)
+        print(myTable)      
 
 
 def category_table():
