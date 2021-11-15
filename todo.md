@@ -6,4 +6,4 @@
     * Maybe Sanitize the User Input
 - [ ] RE-CHECK THE TABLE DEFINITION
 - [ ] Write Function Definition to all other tables
-- [ ] CHANGE UPDATE FUNCTION FOR USER AND ADDRESS
+- [ x ] CHANGE UPDATE FUNCTION FOR USER AND ADDRESS
