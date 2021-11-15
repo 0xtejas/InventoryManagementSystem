@@ -154,9 +154,18 @@ def user_table():
 
 
     elif inp == "3":
-      display_data(con,"users")
-      id = input("Enter ID of the user to be deleted: ")
-      delete_data(con, "users",id)
+        cols = extract_column_names(con,"users")
+        cols.pop(8)
+        myTable = PrettyTable(cols)
+        values = display_data(con,"users")
+        for i in values:
+            myList = list(i)
+            myList.pop(8)
+            myTable.add_row(myList)
+        print(myTable)
+
+        id = input("Enter ID of the user to be deleted: ")
+        delete_data(con, "users",id)
     elif inp == "4":
         cols = extract_column_names(con,"users")
         index = 1
@@ -426,6 +435,7 @@ def address_table():
             myList = list(i)
             myTable.add_row(myList)
         print(myTable)       
+
 def extract_column_names(con,table_name):
     cursor = con.cursor()
     cursor.execute("SELECT * FROM {}".format(table_name))
