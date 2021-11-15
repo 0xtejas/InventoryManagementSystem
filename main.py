@@ -90,10 +90,12 @@ def user_table():
             con.commit()
             con.close()
         except mysql.connector.IntegrityError:
+            con.rollback()
             system("clear||cls")
             print("The Value Entered is DUPLICATE or Tampers the INTEGRITY of DataBase")
             user_table()
 
+            con.rollback()
     elif inp == "2":
         cols = extract_column_names(con,"users")
         cols.pop(8)
@@ -262,6 +264,7 @@ def transaction_table():
             values = "(`userId`, `orderId`, `code`, `type`, `mode`, `status`, `createdAt`) values('{}','{}','{}','{}','{}','{}','2021-11-15 20:29:12')".format(userId,orderId,code,type,mode,status,createdAt)
             insert_data(con,"transaction",values)
         except mysql.connector.Error:
+            con.rollback()
             system("clear||cls")
             print("The Value Entered is DUPLICATE or Tampers the INTEGRITY of DataBase")
             transaction_table()
@@ -313,9 +316,11 @@ def address_table():
             insert_data(con,"address", values)
 
         except mysql.connector.IntegrityError:
+            con.rollback()
             system("clear||cls")
             print("Check if you have filled values in Order table first!")
             order_table()
+            
     elif inp == "2":
         cols = extract_column_names(con,"address")
         myTable = PrettyTable(cols)
