@@ -449,6 +449,17 @@ def category_table():
             system("clear||cls")
             print("Invalid input!")
             category_table()
+    elif inp == "3":
+        cols = extract_column_names(con,"category")
+        myTable = PrettyTable(cols)
+        values = display_data(con,"category")
+        for i in values:
+            myList = list(i)
+            myTable.add_row(myList)
+        print(myTable)
+
+        id = input("Enter ID of the user to be deleted: ")
+        delete_data(con, "category", f"`id` = '{id}'")
 
 
 def address_table():
