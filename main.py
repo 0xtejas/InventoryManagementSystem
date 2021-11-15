@@ -96,7 +96,7 @@ def user_table():
             user_table()
 
     elif inp == "2":
-        cols = extract_columns(con,"users")
+        cols = extract_column_names(con,"users")
         index = 1
         for i in cols[1:-2]:
             print(f"{index}.Update {i}",end='\n')
@@ -247,7 +247,7 @@ def category_table():
 def address_table(options):
     pass
 
-def extract_columns(con,table_name):
+def extract_column_names(con,table_name):
     cursor = con.cursor()
     cursor.execute("SELECT * FROM {}".format(table_name))
     field_names = [i[0] for i in cursor.description]
