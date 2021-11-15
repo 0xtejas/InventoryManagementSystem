@@ -292,6 +292,72 @@ def address_table():
             system("clear||cls")
             print("Check if you have filled values in Order table first!")
             order_table()
+    elif inp == "2":
+        cols = extract_column_names(con,"address")
+        index = 1
+        for i in cols[1:-1]:
+            print(f"{index}.Update {i}",end='\n')
+            index += 1
+        inp = input("Enter your choice: ")
+        if inp == "1":
+            user_id_old = input("Enter OLD User ID: ")
+            user_id_new = input("Enter NEW User ID: ")
+            update_data(con,"address",f"`roleId`='{user_id_new}'",f"`roleId`='{user_id_old}'")
+        elif inp == "2":
+            order_id_old = input("Enter OLD Order ID: ")
+            order_id_new = input("Enter NEW Order ID: ")
+            update_data(con,"order",f"`orderId`='{order_id_new}'",f"`orderId`='{order_id_old}'")
+        elif inp == "3":
+            first_name_old = input("Enter OLD First Name: ")
+            first_name_new = input("Enter NEW First Name: ")
+            update_data(con,"address",f"`firstName`='{first_name_new}'",f"`firstName`='{first_name_old}'")
+        elif inp == "4":
+            middle_name_old = input("Enter OLD Middle Name: ")
+            middle_name_new = input("Enter NEW Middle Name: ")
+            update_data(con,"address",f"`middleName`='{middle_name_new}'",f"`middleName`='{middle_name_old}'")
+        elif inp == "5":
+            last_name_old = input("Enter OLD Last Name: ")
+            last_name_new = input("Enter NEW Last Name: ")
+            update_data(con,"address",f"`lastName`='{last_name_new}'",f"`lastName`='{last_name_old}'")
+        elif inp == "6":
+            mobile_old = input("Enter OLD Mobile: ")
+            mobile_new = input("Enter NEW Mobile: ")
+            update_data(con,"address",f"`mobile`='{mobile_new}'",f"`mobile`='{mobile_old}'")
+        elif inp == "7":
+            email_old = input("Enter OLD Email: ")
+            email_new = input("Enter NEW Email: ")
+            update_data(con,"address",f"`email`='{email_new}'",f"`email`='{email_old}'")
+        elif inp == "8":
+            line1_old = input("Enter OLD Line 1: ")
+            line1_new = input("Enter NEW Line 1: ")
+            update_data(con,"address",f"`line1`='{line1_new}'",f"`line1`='{line1_old}'")
+        elif inp == "9":
+            line2_old = input("Enter OLD Line 2: ")
+            line2_new = input("Enter NEW Line 2: ")
+            update_data(con,"address",f"`line2`='{line2_new}'",f"`line2`='{line2_old}'")
+        elif inp == "10":
+            city_old = input("Enter OLD City: ")
+            city_new = input("Enter NEW City: ")
+            update_data(con,"address",f"`city`='{city_new}'",f"`city`='{city_old}'")
+        elif inp == "11":
+            province_old = input("Enter OLD Province: ")
+            province_new = input("Enter NEW Province: ")
+            update_data(con,"address",f"`province`='{province_new}'",f"`province`='{province_old}'")
+        elif inp == "12":
+            country_old = input("Enter OLD Country: ")
+            country_new = input("Enter NEW Country: ")
+            update_data(con,"address",f"`country`='{country_new}'",f"`country`='{country_old}'")
+        elif inp == "13":
+            created_at_old = input("Enter OLD Created At: ")
+            created_at_new = input("Enter NEW Created At: ")
+            update_data(con,"address",f"`createdAt`='{created_at_new}'",f"`createdAt`='{created_at_old}'")
+
+        now = datetime.now()
+        updated_at_new =  now.strftime("%Y-%m-%d %H:%M:%S")
+        update_data(con,"address",f"`updatedAt`='{updated_at_new}'",f"`updatedAt`= NULL")
+        con.commit()
+        con.close()
+
 
 
 def extract_column_names(con,table_name):
