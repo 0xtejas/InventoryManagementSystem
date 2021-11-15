@@ -387,7 +387,33 @@ def transaction_table():
 
 
 def category_table():
+    con = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        passwd='root',
+        database=DB_NAME,
+        buffered=True
+      )
     print(common_menu_banner.format("Category"))
+    inp = input("Enter your choice: ")
+    if inp == "1":
+        try:
+            id = input("Enter the ID: ")
+            parentId = input("Enter the parent ID: ")
+            title = input("Enter the title: ")
+            metaTitle = input("Enter the meta title: ")
+            slug = input("Enter the slug: ")
+            content = input("Enter the content: ")
+
+            VALUES = "(`parentId`, `title`, `metaTitle`, `slug`, `content`) values('{}','{}','{}','{}','{}')".format(parentId,title,metaTitle,slug,content)
+            insert_data(con,"category",VALUES)
+
+        except mysql.connector.IntegrityError:
+            con.rollback()
+            system("clear||cls")
+            print("The Value Entered is DUPLICATE or Tampers the INTEGRITY of DataBase")
+            category_table()
+        
 
 def address_table():
     con = mysql.connector.connect(
