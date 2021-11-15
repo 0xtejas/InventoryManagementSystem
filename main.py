@@ -197,7 +197,6 @@ def user_table():
         cols = extract_column_names(con,"users")
         cols.pop(8)
         myTable = PrettyTable(cols)
-        values = display_data(con,"users")
         for i in values:
             myList = list(i)
             myList.pop(8)
@@ -372,7 +371,6 @@ def transaction_table():
 
         cols = extract_column_names(con,"transaction")
         myTable = PrettyTable(cols)
-        values = display_data(con,"transaction")
         for i in values:
             myList = list(i)
             myTable.add_row(myList)
@@ -523,7 +521,7 @@ def category_table():
             myList = list(i)
             myTable.add_row(myList)
         print(myTable)
-        
+
 def address_table():
     con = mysql.connector.connect(
         host='localhost',
@@ -695,7 +693,6 @@ def address_table():
 
         cols = extract_column_names(con,"address")
         myTable = PrettyTable(cols)
-        values = display_data(con,"address")
         for i in values:
             myList = list(i)
             myTable.add_row(myList)
