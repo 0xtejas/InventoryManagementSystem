@@ -521,6 +521,14 @@ def category_table():
             myList = list(i)
             myTable.add_row(myList)
         print(myTable)
+    elif inp == "5":
+        cols = extract_column_names(con,"category")
+        myTable = PrettyTable(cols)
+        values = display_data(con,"category")
+        for i in values:
+            myList = list(i)
+            myTable.add_row(myList)
+        print(myTable)   
 
 def address_table():
     con = mysql.connector.connect(
