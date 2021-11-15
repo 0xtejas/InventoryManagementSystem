@@ -46,8 +46,7 @@ def search_data(cursor,table_name,where):
     stmt = "SELECT * FROM {table_name} WHERE {where}"  
     cursor.execute(stmt.format(table_name=table_name,where=where))
     rows = cursor.fetchall()
-    for row in rows:
-      print(row)
+    return rows
 
 ####### MENU FUNCTIONS #######
 
@@ -174,38 +173,47 @@ def user_table():
         inp = input("Enter your choice: ")
         if inp == "1":
             roll_id = input("Enter Roll ID: ")
-            search_data(con,"users","roleId = '{}'".format(roll_id))
+            values = search_data(con,"users","roleId = '{}'".format(roll_id))
         elif inp == "2":
             first_name = input("Enter First Name: ")
-            search_data(con,"users","firstName = '{}'".format(first_name))
+            values = search_data(con,"users","firstName = '{}'".format(first_name))
         elif inp == "3":
             middle_name = input("Enter Middle Name: ")
-            search_data(con,"users","middleName = '{}'".format(middle_name))
+            values = search_data(con,"users","middleName = '{}'".format(middle_name))
         elif inp == "4":
             last_name = input("Enter Last Name: ")
-            search_data(con,"users","lastName = '{}'".format(last_name))
+            values = search_data(con,"users","lastName = '{}'".format(last_name))
         elif inp == "5":
             mobile = input("Enter Mobile Number: ")
-            search_data(con,"users","mobile = '{}'".format(mobile))
+            values = search_data(con,"users","mobile = '{}'".format(mobile))
         elif inp == "6":
             email = input("Enter Email ID: ")
-            search_data(con,"users","email = '{}'".format(email))
+            values = search_data(con,"users","email = '{}'".format(email))
         elif inp == "7":
             username = input("Enter Username Name: ")
-            search_data(con,"users","username = '{}'".format(username))
+            values = search_data(con,"users","username = '{}'".format(username))
         elif inp == "8":
             first_name = input("Enter First Name: ")
-            search_data(con,"users","firstName = '{}'".format(first_name))
+            values = search_data(con,"users","firstName = '{}'".format(first_name))
         elif inp == "9":
             registeredAt = input("Enter Registered Time: ")
-            search_data(con,"users","registeredAt = '{}'".format(registeredAt))
+            values = search_data(con,"users","registeredAt = '{}'".format(registeredAt))
         elif inp == "10":
             lastLoginAt = input("Enter Last Login Time: ")
-            search_data(con,"users","lastLoginAt = '{}'".format(lastLoginAt))
+            values = search_data(con,"users","lastLoginAt = '{}'".format(lastLoginAt))
         else:
             system("clear||cls")
             print("Invalid Choice")
             user_table()
+        cols = extract_column_names(con,"users")
+        cols.pop(8)
+        myTable = PrettyTable(cols)
+        values = display_data(con,"users")
+        for i in values:
+            myList = list(i)
+            myList.pop(8)
+            myTable.add_row(myList)
+        print(myTable)
 
     elif inp == "5":
         cols = extract_column_names(con,"users")
