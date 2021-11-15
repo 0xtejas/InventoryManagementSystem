@@ -331,7 +331,6 @@ def transaction_table():
             myTable.add_row(myList)
         print(myTable)
 
-        display_data(con,"transaction")
         id = input("Enter ID of the user to be deleted: ")
         delete_data(con, "transaction", f"`id` = '{id}'")
     elif inp == "4":
@@ -446,9 +445,16 @@ def address_table():
         con.commit()
         con.close()
     elif inp == "3":
-        display_data(con,"address")
+        cols = extract_column_names(con,"address")
+        myTable = PrettyTable(cols)
+        values = display_data(con,"address")
+        for i in values:
+            myList = list(i)
+            myTable.add_row(myList)
+        print(myTable)
+
         id = input("Enter ID of the user to be deleted: ")
-        delete_data(con, "users",id)
+        delete_data(con, "address", f"`id` = '{id}'")
     elif inp == "4":
         cols = extract_column_names(con,"address")
         index = 1
