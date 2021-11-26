@@ -222,8 +222,7 @@ def product_table(options):
         print(common_menu_banner.format("Product Table"))
     elif options == "2":
         print(common_menu_banner.format("Product Category Table"))
-    elif options == "3":
-        print(common_menu_banner.format("Product Meta Table"))
+
     
 def order_table(options):
     if options == "1":
@@ -726,15 +725,14 @@ def menu():
     1.  User Table
     2.  Product Table
     3.  Product Category Table
-    4.  Product Meta Table
-    5.  Order Table
-    6.  Order Item Table
-    7.  Item Table
-    8.  Brand Table
-    9.  Transaction Table
-    10. Address Table
-    11. Category Table
-    12. Exit 
+    4.  Order Table
+    5.  Order Item Table
+    6.  Item Table
+    7.  Brand Table
+    8.  Transaction Table
+    9. Address Table
+    10. Category Table
+    11. Exit 
     """)
     inp = input("Enter your choice: ")
     if inp == "1":
