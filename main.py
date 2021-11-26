@@ -230,13 +230,9 @@ def order_table(options):
     elif options == "2":
         print(common_menu_banner.format("Order Item"))
 
-def item_table(options):
-    if options == "1":
-        print(common_menu_banner.format("Item"))
-        pass
-    elif options == "2":
-        print(common_menu_banner.format("Item Category"))
-        pass
+def item_table():    
+    print(common_menu_banner.format("Item"))
+
 def transaction_table():
     con = mysql.connector.connect(
         host='localhost',
@@ -730,7 +726,7 @@ def menu():
     6.  Item Table
     7.  Brand Table
     8.  Transaction Table
-    9. Address Table
+    9.  Address Table
     10. Category Table
     11. Exit 
     """)
