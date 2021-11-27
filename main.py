@@ -477,7 +477,7 @@ def item_table(options):
             now = datetime.now()
             updatedAt = now.strftime("%Y-%m-%d %H:%M:%S")
             update_data(con,"brand",f"`updatedAt` = '{updatedAt}'",f"`id` = '{id}'")
-            
+
         elif inp == "3":
             cols = extract_column_names(con,"brand")
             myTable = PrettyTable(cols)
@@ -490,6 +490,38 @@ def item_table(options):
             id = input("Enter ID to be deleted: ")
             delete_data(con, "brand", f"`id` = '{id}'")
         
+        elif inp == "4":
+            cols = extract_column_names(con,"brand")
+            index = 1
+            for i in cols:
+                print(f"{index}. Select by {i}",end='\n')
+                index += 1
+            inp = input("Enter your choice: ")
+            if inp == "1":
+                id = input("Enter ID: ")
+                values = search_data(con,"brand",f"`id` = '{id}'")
+            elif inp == "2":
+                title = input("Enter the title: ")
+                values = search_data(con,"brand",f"`title` = '{title}'")
+            elif inp == "3":
+                createdAt = input("Enter the createdAt: ")
+                values = search_data(con,"brand",f"`createdAt` = '{createdAt}'")
+            elif inp == "4":
+                updatedAt = input("Enter the updatedAt: ")
+                values = search_data(con,"brand",f"`updatedAt` = '{updatedAt}'")
+            else:
+                system("clear||cls")
+                print("Invalid Choice")     
+
+            cols = extract_column_names(con,"brand")
+            myTable = PrettyTable(cols)
+            if len(values) != 0:
+                for i in values:
+                    myList = list(i)
+                    myTable.add_row(myList)
+                print(myTable)            
+            else:
+                print("No data found")
 
         
 def transaction_table():
