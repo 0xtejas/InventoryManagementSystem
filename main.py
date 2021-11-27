@@ -230,7 +230,7 @@ def order_table(options):
         print(common_menu_banner.format("Order Item"))
 
 def item_table(options):
-    if options:
+    if options == 1:
         con = mysql.connector.connect(
             host='localhost',
             user='root',
@@ -435,9 +435,46 @@ def item_table(options):
                 myTable.add_row(myList)
             print(myTable)
 
-    elif not options:
-        pass
+    elif options == 2:
+        con = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            passwd='root',
+            database=DB_NAME,
+            buffered=True
+        )    
+        print(common_menu_banner.format("Brand"))
+        inp = input("Enter your choice: ")
+        if inp == "1":
+            title = input("Enter the title: ")
+            now = datetime.now()
+            createdAt = now.strftime("%Y-%m-%d %H:%M:%S")
+            
+            values = "(`title`, `createdAt`, `updatedAt`) values ('{}','{}',NULL)".format(title,createdAt)
+            insert_data(con,"brand",values)
+        elif inp == "2":
+            cols = extract_column_names(con,"brand")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"brand")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
 
+            index = 1
+            for i in cols[1:-1]:
+                print(f"{index}. Update {i}",end='\n')
+                index += 1
+            inp = input("Enter your choice: ")
+            id = input("Enter the ID: ")
+            if inp == "1":
+                title_new = input("Enter your Title: ")    
+                update_data(con,"brand",f"`title` = '{title_new}'",f"`id` = '{id}'")    
+            elif inp == "2":
+                createdAt_new = input("Enter your createdAt: ")
+                update_data(con,"brand",f"`createdAt` = '{createdAt_new}'",f"`id` = '{id}'")
+
+        
 def transaction_table():
     con = mysql.connector.connect(
         host='localhost',
