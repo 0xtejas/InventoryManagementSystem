@@ -523,6 +523,14 @@ def item_table(options):
             else:
                 print("No data found")
 
+        elif inp == "5":
+            cols = extract_column_names(con,"brand")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"brand")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
         
 def transaction_table():
     con = mysql.connector.connect(
