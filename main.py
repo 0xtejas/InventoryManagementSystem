@@ -425,6 +425,15 @@ def item_table(options):
                 myList = list(i)
                 myTable.add_row(myList)
             print(myTable)
+        
+        elif inp == "5":
+            cols = extract_column_names(con,"item")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"item")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
 
     elif not options:
         pass
