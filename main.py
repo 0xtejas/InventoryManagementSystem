@@ -242,26 +242,28 @@ def item_table(options):
         print(common_menu_banner.format("Item"))
         inp = input("Enter your choice: ")
         if inp == "1":
-            product_id = input("Enter Product ID: ")
-            brand_id = input("Enter Brand ID: ")
-            supplier_id = input("Enter Supplier ID: ")
-            orderId = input("Enter order ID:")
-            sku = input("Enter SKU: ")
-            mrp = input("Enter the MRP: ")
-            discount = input("Enter the Discount: ")
-            price = input("Enter the Price: ")
-            quantity = input("Enter the quantity: ")
-            sold = input("Enter the sold: ")
-            available = input("Enter the available: ")
-            defective = input("Enter the defective: ")
-            createdBy = input("Enter the createdBy ID: ")
-            updatedBy = input("Enter the updatedBy ID: ")
-            now = datetime.now()
-            createdAt = now.strftime("%Y-%m-%d %H:%M:%S")
-            values ="(`productId`, `brandId`, `supplierId`, `orderId`, `sku`, `mrp`, `discount`, `price`, `quantity`, `sold`, `available`, `defective`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`) values ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',NULL) ".format(product_id,brand_id,supplier_id,orderId,sku,mrp,discount,price,quantity,sold,available,defective,createdBy,updatedBy,createdAt)
-            insert_data(con,"item",values)
+            try:
+                product_id = input("Enter Product ID: ")
+                brand_id = input("Enter Brand ID: ")
+                supplier_id = input("Enter Supplier ID: ")
+                orderId = input("Enter order ID:")
+                sku = input("Enter SKU: ")
+                mrp = input("Enter the MRP: ")
+                discount = input("Enter the Discount: ")
+                price = input("Enter the Price: ")
+                quantity = input("Enter the quantity: ")
+                sold = input("Enter the sold: ")
+                available = input("Enter the available: ")
+                defective = input("Enter the defective: ")
+                createdBy = input("Enter the createdBy ID: ")
+                updatedBy = input("Enter the updatedBy ID: ")
+                now = datetime.now()
+                createdAt = now.strftime("%Y-%m-%d %H:%M:%S")
+                values ="(`productId`, `brandId`, `supplierId`, `orderId`, `sku`, `mrp`, `discount`, `price`, `quantity`, `sold`, `available`, `defective`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`) values ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',NULL) ".format(product_id,brand_id,supplier_id,orderId,sku,mrp,discount,price,quantity,sold,available,defective,createdBy,updatedBy,createdAt)
+                insert_data(con,"item",values)
 
-
+            except mysql.connector.IntegrityError:
+                print("Please check if your Product/Brand/Supplier(User)/Order table are filled and the ID you mentioned is aligining with the table")
 
         elif not inp:
             pass
