@@ -21,7 +21,7 @@ def insert_data(con,table_name,values):
     
 def display_data(con,table_name):
     cursor = con.cursor()
-    stmt = "SELECT * FROM {table_name}"
+    stmt = "SELECT * FROM `{table_name}`"
     cursor.execute(stmt.format(table_name=table_name))
     rows = cursor.fetchall()
     return rows
@@ -30,20 +30,20 @@ def display_data(con,table_name):
 
 def update_data(con,table_name,values,where):
     cursor = con.cursor()
-    stmt = "UPDATE {table_name} SET {values} WHERE {where}"
+    stmt = "UPDATE `{table_name}` SET {values} WHERE {where}"
     cursor.execute(stmt.format(table_name=table_name,values=values,where=where))
     con.commit()
 
 def delete_data(con,table_name,where):
     cursor = con.cursor()
-    stmt = "DELETE FROM {table_name} WHERE {where}"
+    stmt = "DELETE FROM `{table_name}` WHERE {where}"
     cursor.execute(stmt.format(table_name=table_name,where=where))
     con.commit()
    
 
 def search_data(cursor,table_name,where):
     cursor = con.cursor()
-    stmt = "SELECT * FROM {table_name} WHERE {where}"  
+    stmt = "SELECT * FROM `{table_name}` WHERE {where}"  
     cursor.execute(stmt.format(table_name=table_name,where=where))
     rows = cursor.fetchall()
     return rows
@@ -224,13 +224,20 @@ def product_table(options):
 
     
 def order_table(options):
+    con = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        passwd='root',
+        database=DB_NAME,
+        buffered=True
+    )
     if options == 1:
         print(common_menu_banner.format("Order"))
         inp = input("Enter your choice: ")
         if inp == "1":
             try:
                 userId = input("Enter User ID: ")
-                type = input("Enter Type: ")
+                type_value = input("Enter Type: ")
                 status = input("Enter Status: ")
                 subTotal = input("Enter Sub Total: ")
                 itemDiscount = input("Enter Item Discount: ")
@@ -245,11 +252,119 @@ def order_table(options):
                 now = datetime.now()
                 createdAt = now.strftime("%Y-%m-%d %H:%M:%S")
                 content = input("Enter Content: ")
-                values = "(`userId`, `type`, `status`, `subTotal`, `itemDiscount`, `tax`, `shipping`, `total`, `promo`, `discount`, `grandTotal`, `createdAt`, `updatedAt`, `content`) values('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',NULL,'{}')".format(userId,type,status,subTotal,itemDiscount,tax,shipping,total,promo,discount,grandTotal,createdAt,content)
+                values = "(`userId`, `type`, `status`, `subTotal`, `itemDiscount`, `tax`, `shipping`, `total`, `promo`, `discount`, `grandTotal`, `createdAt`, `updatedAt`, `content`) values('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',NULL,'{}')".format(userId,type_value,status,subTotal,itemDiscount,tax,shipping,total,promo,discount,grandTotal,createdAt,content)
                 insert_data(con,"order",values)
             except mysql.exceptions.IntegrityError:
                 print("Check if the User ID exist in User Table")
-                
+            con.commit()
+            con.close()
+
+        elif inp == "2":
+            cols = extract_column_names(con,"order")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"order")
+    
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+
+            index = 1
+            cols.pop(13)
+            for i in cols[1:-1]:
+                print(f"{index}. Update {i}",end='\n')
+                index += 1
+            inp = input("Enter your choice: ")    
+            id = input("Enter the ID: ")
+            if inp == "1":
+                userId_new = input("Enter your user ID: ")
+                update_data(con,"order",f"`userId` = '{userId_new}'",f"`id` = '{id}'")
+            elif inp == "2":
+                type_new = input("Enter your type: ")
+                update_data(con,"order",f"`type` = '{type_new}'",f"`id` = '{id}'")
+            elif inp == "3":
+                status_new = input("Enter your status: ")
+                update_data(con,"order",f"`status` = '{status_new}'",f"`id` = '{id}'")
+            elif inp == "4":
+                subTotal_new = input("Enter your sub total: ")
+                update_data(con,"order",f"`subTotal` = '{subTotal_new}'",f"`id` = '{id}'")
+                for i in values:
+                    if int(id) == i[0]:
+                        total_new = float(subTotal_new) - float(i[5]) + float(i[6]) + float(i[7])
+                        update_data(con,"order",f"`total` = '{total_new}'",f"`id` = '{id}'")
+                        grandTotal_new = float(total_new) - float(i[10])
+                        update_data(con,"order",f"`grandTotal` = '{grandTotal_new}'",f"`id` = '{id}'")
+
+            elif inp == "5":
+                itemDiscount_new = input("Enter your item discount: ")
+                update_data(con,"order",f"`itemDiscount` = '{itemDiscount_new}'",f"`id` = '{id}'")
+                for i in values:
+                    if int(id) == i[0]:
+                        total_new = float(i[4]) - float(itemDiscount_new) + float(i[6]) + float(i[7])
+                        update_data(con,"order",f"`total` = '{total_new}'",f"`id` = '{id}'")
+                        grandTotal_new = float(total_new) - float(i[10])
+                        update_data(con,"order",f"`grandTotal` = '{grandTotal_new}'",f"`id` = '{id}'")
+            elif inp == "6":
+                tax_new = input("Enter your tax: ")
+                update_data(con,"order",f"`tax` = '{tax_new}'",f"`id` = '{id}'")
+                for i in values:
+                    if int(id) == i[0]:
+                        total_new = float(i[4]) - float(i[5]) + float(tax_new) + float(i[7])
+                        update_data(con,"order",f"`total` = '{total_new}'",f"`id` = '{id}'")
+                        grandTotal_new = float(total_new) - float(i[10])
+                        update_data(con,"order",f"`grandTotal` = '{grandTotal_new}'",f"`id` = '{id}'")
+            elif inp == "7":
+                shipping_new = input("Enter your shipping: ")
+                update_data(con,"order",f"`shipping` = '{shipping_new}'",f"`id` = '{id}'")
+                for i in values:
+                    if int(id) == i[0]:
+                        total_new = float(i[4]) - float(i[5]) + float(i[6]) + float(shipping_new)
+                        update_data(con,"order",f"`total` = '{total_new}'",f"`id` = '{id}'")
+                        grandTotal_new = float(total_new) - float(i[10])
+                        update_data(con,"order",f"`grandTotal` = '{grandTotal_new}'",f"`id` = '{id}'")
+            elif inp == "8":
+                subTotal_new = float(input("Enter your sub total: "))
+                itemDiscount_new = float(input("Enter your item discount: "))
+                tax_new = float(input("Enter your tax: "))
+                shipping_new = float(input("Enter your shipping: "))
+                total_new = float(subTotal_new) - float(itemDiscount_new) + float(tax_new) + float(shipping_new)
+                update_data(con,"order",f"`subTotal` = '{subTotal_new}', `itemDiscount` = '{itemDiscount_new}', `tax` = '{tax_new}', `shipping` = '{shipping_new}', `total` = '{total_new}'",f"`id` = '{id}'")
+                for i in values:
+                    if int(id) == i[0]:
+                        grandTotal_new = float(total_new) - float(i[10])
+                        update_data(con,"order",f"`grandTotal` = '{grandTotal_new}'",f"`id` = '{id}'")
+            elif inp == "9":
+                promo_new = input("Enter your promo: ")
+                discount_new = input("Enter your discount: ")
+                grandTotal_new = values[int(id)][8] - float(discount_new)
+                update_data(con,"order",f"`promo` = '{promo_new}', `discount` = '{discount_new}', `grandTotal` = '{grandTotal_new}'",f"`id` = '{id}'")
+            elif inp == "10":
+                discount_new = input("Enter your discount: ")
+                grandTotal_new = values[int(id)][8] - float(discount_new)
+                promo_new = input("Enter your promo: ")
+                update_data(con,"order",f"`promo` = '{promo_new}', `discount` = '{discount_new}', `grandTotal` = '{grandTotal_new}'",f"`id` = '{id}'")
+
+            elif inp == "11":
+                subTotal_new = input("Enter your sub total: ")
+                itemDiscount_new = input("Enter your item discount: ")
+                tax_new = input("Enter your tax: ")
+                shipping_new = input("Enter your shipping: ")
+                total_new = float(subTotal_new) - float(itemDiscount_new) + float(tax_new) + float(shipping_new)
+                promo_new = input("Enter your promo: ")
+                discount_new = input("Enter your discount: ")
+                grandTotal_new = float(total_new) - float(discount_new)
+                update_data(con,"order",f"`subTotal` = '{subTotal_new}', `itemDiscount` = '{itemDiscount_new}', `tax` = '{tax_new}', `shipping` = '{shipping_new}', `total` = '{total_new}', `promo` = '{promo_new}', `discount` = '{discount_new}', `grandTotal` = '{grandTotal_new}'",f"`id` = '{id}'")
+
+            elif inp == "12":
+                createdAt_new = input("Enter new Created At: ")
+                update_data(con,"order",f"`createdAt` = '{createdAt_new}'",f"`id` = '{id}'")
+            
+            now = datetime.now()
+            now = now.strftime("%Y-%m-%d %H:%M:%S")
+            update_data(con,"order",f"`updatedAt` = '{now}'",f"`id` = '{id}'")
+
+        
+    
     elif options == 2:
         print(common_menu_banner.format("Order Item"))
 
@@ -637,8 +752,6 @@ def transaction_table():
         con.commit()
         con.close()
 
-
-        pass
     elif inp == "3":
         cols = extract_column_names(con,"transaction")
         myTable = PrettyTable(cols)
@@ -1034,7 +1147,7 @@ def address_table():
 
 def extract_column_names(con,table_name):
     cursor = con.cursor()
-    cursor.execute("SELECT * FROM {}".format(table_name))
+    cursor.execute("SELECT * FROM `{}`".format(table_name))
     field_names = [i[0] for i in cursor.description]
     return field_names
 
