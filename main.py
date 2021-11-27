@@ -45,7 +45,6 @@ def search_data(cursor,table_name,where):
     cursor = con.cursor()
     stmt = "SELECT * FROM {table_name} WHERE {where}"  
     cursor.execute(stmt.format(table_name=table_name,where=where))
-    print(cursor.statement)
     rows = cursor.fetchall()
     return rows
 
@@ -351,6 +350,81 @@ def item_table(options):
             id = input("Enter ID to be deleted: ")
             delete_data(con, "item", f"`id` = '{id}'")
 
+        elif inp == "4":
+            cols = extract_column_names(con,"item")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"item")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+            index = 1
+
+            for i in cols:
+                print(f"{index}. Update {i}",end='\n')
+                index += 1
+            inp = input("Enter your choice: ")     
+            if inp == "1":
+                id = input("Enter the ID: ")
+                values = search_data(con,"item",f"`id` = '{id}'")
+            elif inp == "2":
+                productId = input("Enter the product ID: ")
+                values = search_data(con,"item",f"`userId` = '{productId}'")
+            elif inp == "3":
+                brandId = input("Enter the brand ID: ")
+                values = search_data(con,"item",f"`brandId` = '{brandId}'")
+            elif inp == "4":
+                supplierId = input("Enter the supplier ID: ")
+                values = search_data(con,"item",f"`supplierId` = '{supplierId}'")
+            elif inp == "5":
+                orderId = input("Enter the order ID: ")
+                values = search_data(con,"item",f"`orderId` = '{orderId}'")
+            elif inp == "6":
+                sku = input("Enter the SKU: ")
+                values = search_data(con,"item",f"`sku` = '{sku}'")
+            elif inp == "7":
+                mrp = input("Enter the MRP: ")
+                values = search_data(con,"item",f"`mrp` = '{mrp}'")
+            elif inp == "8":
+                discount = input("Enter the Discount: ")
+                values = search_data(con,"item",f"`discount` = '{discount}'")
+            elif inp == "9":
+                price = input("Enter the Price: ")
+                values = search_data(con,"item",f"`price` = '{price}'")
+            elif inp == "10":
+                quantity = input("Enter the quantity: ")
+                values = search_data(con,"item",f"`quantity` = '{quantity}'")
+            elif inp == "11":
+                sold = input("Enter the sold: ")
+                values = search_data(con,"item",f"`sold` = '{sold}'")
+            elif inp == "12":
+                available = input("Enter the available: ")
+                values = search_data(con,"item",f"`available` = '{available}'")
+            elif inp == "13":
+                defective = input("Enter the defective: ")
+                values = search_data(con,"item",f"`defective` = '{defective}'")
+            elif inp == "14":
+                createdBy = input("Enter the createdBy ID: ")
+                values = search_data(con,"item",f"`createdBy` = '{createdBy}'")
+            elif inp == "15":
+                updatedBy = input("Enter the updatedBy ID: ")
+                values = search_data(con,"item",f"`updatedBy` = '{updatedBy}'")
+            elif inp == "16":
+                createdAt = input("Enter the createdAt: ")
+                values = search_data(con,"item",f"`createdAt` = '{createdAt}'")
+            elif inp == "17":
+                updatedAt = input("Enter the updatedAt: ")
+                values = search_data(con,"item",f"`updatedAt` = '{updatedAt}'")
+            else:
+                system("clear||cls")
+                print("Invalid Choice")
+
+            cols = extract_column_names(con,"item")
+            myTable = PrettyTable(cols)
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
 
     elif not options:
         pass
