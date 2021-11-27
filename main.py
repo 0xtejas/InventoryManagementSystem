@@ -363,6 +363,19 @@ def order_table(options):
             now = now.strftime("%Y-%m-%d %H:%M:%S")
             update_data(con,"order",f"`updatedAt` = '{now}'",f"`id` = '{id}'")
 
+        elif inp == "3":
+            cols = extract_column_names(con,"order")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"order")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+
+            id = input("Enter ID: ")
+            delete_data(con,"order",f"`id` = '{id}'")
+        
+
         
     
     elif options == 2:
@@ -761,7 +774,7 @@ def transaction_table():
             myTable.add_row(myList)
         print(myTable)
 
-        id = input("Enter ID of the user to be deleted: ")
+        id = input("Enter ID: ")
         delete_data(con, "transaction", f"`id` = '{id}'")
     elif inp == "4":
         cols = extract_column_names(con,"transaction")
