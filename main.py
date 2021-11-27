@@ -265,8 +265,83 @@ def item_table(options):
             except mysql.connector.IntegrityError:
                 print("Please check if your Product/Brand/Supplier(User)/Order table are filled and the ID you mentioned is aligining with the table")
 
-        elif not inp:
-            pass
+        elif inp == "2":
+            cols = extract_column_names(con,"item")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"item")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+            index = 1
+
+            for i in cols[1:-2]:
+                print(f"{index}. Update {i}",end='\n')
+                index += 1     
+            inp = input("Enter your choice: ")
+            id = input("Enter the ID: ")
+            if inp == "1":
+                try:
+                    productId_new = input("Enter the new product ID: ")
+                    update_data(con,"item",f"`userId` = '{productId_new}'",f"`id` = '{id}'")
+                except mysql.connector.IntegrityError:
+                    print("Please check if your Product/Brand/Supplier(User)/Order table are filled and the ID you mentioned is aligining with the table")
+            elif inp == "2":
+                try:
+                    brandId_new = input("Enter the new brand ID: ")
+                    update_data(con,"item",f"`brandId` = '{brandId_new}'",f"`id` = '{id}'")
+                except mysql.connector.IntegrityError:
+                    print("Please check if your Brand table is filled and the ID you mentioned is aligining with the table")
+            elif inp == "3":
+                try:
+                    supplierId_new = input("Enter the new supplier ID: ")
+                    update_data(con,"item",f"`supplierId` = '{supplierId_new}'",f"`id` = '{id}'")
+                except mysql.connector.IntegrityError:
+                    print("Please check if your Supplier table is filled and the ID you mentioned is aligining with the table")
+            elif inp == "4":
+                try:
+                    orderId_new = input("Enter the new order ID: ")
+                    update_data(con,"item",f"`orderId` = '{orderId_new}'",f"`id` = '{id}'")
+                except mysql.connector.IntegrityError:
+                    print("Please check if your Order table is filled and the ID you mentioned is aligining with the table")
+            elif inp == "5":
+                sku_new = input("Enter the new SKU: ")
+                update_data(con,"item",f"`sku` = '{sku_new}'",f"`id` = '{id}'")
+            elif inp == "6":
+                mrp_new = input("Enter the new MRP: ")
+                update_data(con,"item",f"`mrp` = '{mrp_new}'",f"`id` = '{id}'")
+            elif inp == "7":
+                discount_new = input("Enter the new Discount: ")
+                update_data(con,"item",f"`discount` = '{discount_new}'",f"`id` = '{id}'")
+            elif inp == "8":
+                price_new = input("Enter the new Price: ")
+                update_data(con,"item",f"`price` = '{price_new}'",f"`id` = '{id}'")
+            elif inp == "9":
+                quantity_new = input("Enter the new quantity: ")
+                update_data(con,"item",f"`quantity` = '{quantity_new}'",f"`id` = '{id}'")
+            elif inp == "10":
+                sold_new = input("Enter the new sold: ")
+                update_data(con,"item",f"`sold` = '{sold_new}'",f"`id` = '{id}'")
+            elif inp == "11":
+                available_new = input("Enter the new available: ")
+                update_data(con,"item",f"`available` = '{available_new}'",f"`id` = '{id}'")
+            elif inp == "12":
+                defective_new = input("Enter the new defective: ")
+                update_data(con,"item",f"`defective` = '{defective_new}'",f"`id` = '{id}'")
+            elif inp == "13":
+                createdBy_new = input("Enter the new createdBy ID: ")
+                update_data(con,"item",f"`createdBy` = '{createdBy_new}'",f"`id` = '{id}'")
+            elif inp == "14":
+                updatedBy_new = input("Enter the new updatedBy ID: ")
+                update_data(con,"item",f"`updatedBy` = '{updatedBy_new}'",f"`id` = '{id}'")
+
+            now = datetime.now()
+            updatedAt = now.strftime("%Y-%m-%d %H:%M:%S")
+            update_data(con,"item",f"`updatedAt` = '{updatedAt}'",f"`id` = '{id}'")
+
+        
+    elif not options:
+        pass
 
 def transaction_table():
     con = mysql.connector.connect(
