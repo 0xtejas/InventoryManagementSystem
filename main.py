@@ -15,7 +15,7 @@ with open("tables.json","r") as f:
 
 def insert_data(con,table_name,values):
     cursor = con.cursor()
-    stmt = "INSERT INTO {table_name} {values}"
+    stmt = "INSERT INTO `{table_name}` {values}"
     cursor.execute(stmt.format(table_name=table_name,values=values))
     con.commit()
     
@@ -224,9 +224,33 @@ def product_table(options):
 
     
 def order_table(options):
-    if options == "1":
+    if options == 1:
         print(common_menu_banner.format("Order"))
-    elif options == "2":
+        inp = input("Enter your choice: ")
+        if inp == "1":
+            try:
+                userId = input("Enter User ID: ")
+                type = input("Enter Type: ")
+                status = input("Enter Status: ")
+                subTotal = input("Enter Sub Total: ")
+                itemDiscount = input("Enter Item Discount: ")
+                tax = input("Enter Tax: ")
+                shipping = input("Enter Shipping: ")
+                total = float(subTotal) + float(tax) + float(shipping) - float(itemDiscount)
+                promo = input("Enter Promo: ")
+                discount = input("Enter Discount: ")
+                if discount == "":
+                    discount = 0
+                grandTotal = float(total) - float(discount)
+                now = datetime.now()
+                createdAt = now.strftime("%Y-%m-%d %H:%M:%S")
+                content = input("Enter Content: ")
+                values = "(`userId`, `type`, `status`, `subTotal`, `itemDiscount`, `tax`, `shipping`, `total`, `promo`, `discount`, `grandTotal`, `createdAt`, `updatedAt`, `content`) values('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',NULL,'{}')".format(userId,type,status,subTotal,itemDiscount,tax,shipping,total,promo,discount,grandTotal,createdAt,content)
+                insert_data(con,"order",values)
+            except mysql.exceptions.IntegrityError:
+                print("Check if the User ID exist in User Table")
+                
+    elif options == 2:
         print(common_menu_banner.format("Order Item"))
 
 def item_table(options):
