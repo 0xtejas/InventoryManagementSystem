@@ -230,8 +230,41 @@ def order_table(options):
     elif options == "2":
         print(common_menu_banner.format("Order Item"))
 
-def item_table():    
-    print(common_menu_banner.format("Item"))
+def item_table(options):
+    if options:
+        con = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            passwd='root',
+            database=DB_NAME,
+            buffered=True
+        )    
+        print(common_menu_banner.format("Item"))
+        inp = input("Enter your choice: ")
+        if inp == "1":
+            product_id = input("Enter Product ID: ")
+            brand_id = input("Enter Brand ID: ")
+            supplier_id = input("Enter Supplier ID: ")
+            orderId = input("Enter order ID:")
+            sku = input("Enter SKU: ")
+            mrp = input("Enter the MRP: ")
+            discount = input("Enter the Discount: ")
+            price = input("Enter the Price: ")
+            quantity = input("Enter the quantity: ")
+            sold = input("Enter the sold: ")
+            available = input("Enter the available: ")
+            defective = input("Enter the defective: ")
+            createdBy = input("Enter the createdBy ID: ")
+            updatedBy = input("Enter the updatedBy ID: ")
+            now = datetime.now()
+            createdAt = now.strftime("%Y-%m-%d %H:%M:%S")
+            values ="(`productId`, `brandId`, `supplierId`, `orderId`, `sku`, `mrp`, `discount`, `price`, `quantity`, `sold`, `available`, `defective`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`) values ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',NULL) ".format(product_id,brand_id,supplier_id,orderId,sku,mrp,discount,price,quantity,sold,available,defective,createdBy,updatedBy,createdAt)
+            insert_data(con,"item",values)
+
+
+
+        elif not inp:
+            pass
 
 def transaction_table():
     con = mysql.connector.connect(
@@ -240,7 +273,7 @@ def transaction_table():
         passwd='root',
         database=DB_NAME,
         buffered=True
-      )
+    )
     print(common_menu_banner.format("Transaction"))
     inp = input("Enter your choice: ")
     if inp == "1":
@@ -255,7 +288,7 @@ def transaction_table():
             now = datetime.now()   
             createdAt = now.strftime("%Y-%m-%d %H:%M:%S")
 
-            values = "(`userId`, `orderId`, `code`, `type`, `mode`, `status`, `createdAt`) values('{}','{}','{}','{}','{}','{}','2021-11-15 20:29:12')".format(userId,orderId,code,type,mode,status,createdAt)
+            values = "(`userId`, `orderId`, `code`, `type`, `mode`, `status`, `createdAt`) values('{}','{}','{}','{}','{}','{}','{}')".format(userId,orderId,code,type,mode,status,createdAt)
             insert_data(con,"transaction",values)
         except mysql.connector.Error:
             con.rollback()
@@ -738,23 +771,21 @@ def menu():
     elif inp == "3":
         product_table(2)
     elif inp == "4":
-        product_table(3)
-    elif inp == "5":
         order_table(1)
-    elif inp == "6":
+    elif inp == "5":
         order_table(2)
-    elif inp == "7":
+    elif inp == "6":
         item_table(1)
-    elif inp == "8":
+    elif inp == "7":
         item_table(2)
-    elif inp == "9":
+    elif inp == "8":
         transaction_table()
-    elif inp == "10":
+    elif inp == "9":
         address_table()
-    elif inp == "11":
+    elif inp == "10":
         category_table()
-    elif inp == "12":
-        exit(1)
+    elif inp == "11":
+        exit()
 
 ################### PASSWORD HASHING FUNCTION ###################
 def hash_password(password):
