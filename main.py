@@ -339,7 +339,19 @@ def item_table(options):
             updatedAt = now.strftime("%Y-%m-%d %H:%M:%S")
             update_data(con,"item",f"`updatedAt` = '{updatedAt}'",f"`id` = '{id}'")
 
-        
+        elif inp == "3":
+            cols = extract_column_names(con,"item")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"item")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+
+            id = input("Enter ID to be deleted: ")
+            delete_data(con, "item", f"`id` = '{id}'")
+
+
     elif not options:
         pass
 
