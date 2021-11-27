@@ -473,6 +473,12 @@ def item_table(options):
             elif inp == "2":
                 createdAt_new = input("Enter your createdAt: ")
                 update_data(con,"brand",f"`createdAt` = '{createdAt_new}'",f"`id` = '{id}'")
+            
+            now = datetime.now()
+            updatedAt = now.strftime("%Y-%m-%d %H:%M:%S")
+            update_data(con,"brand",f"`updatedAt` = '{updatedAt}'",f"`id` = '{id}'")
+
+        
 
         
 def transaction_table():
