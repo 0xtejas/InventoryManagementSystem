@@ -523,7 +523,17 @@ def order_table(options):
             now = datetime.now()
             updatedAt = now.strftime("%Y-%m-%d %H:%M:%S")
             update_data(con,"order_item",f"`updatedAt` = '{updatedAt}'",f"`id` = '{id}'")
+        elif inp == "3":
+            cols = extract_column_names(con,"order_item")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"order_item")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
 
+            id = input("Enter ID: ")
+            delete_data(con,"order_item",f"`id` = '{id}'")
 
 def item_table(options):
     if options == 1:
