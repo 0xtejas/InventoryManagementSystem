@@ -217,9 +217,30 @@ def user_table():
       pass
     
 def product_table(options):
-    if options == "1":
+    con = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        passwd='root',
+        database=DB_NAME,
+        buffered=True
+    )
+    if options == 1:
         print(common_menu_banner.format("Product Table"))
-    elif options == "2":
+        inp = input("Enter your choice: ")
+        if inp == "1":
+            title = input("Enter title: ")
+            type_val = input("Enter type: ")
+            now = datetime.now()
+            createdAt = now.strftime("%Y-%m-%d %H:%M:%S")
+            content = input("Enter content: ")
+
+            #  (`title`, `type`, `createdAt`, `updatedAt`, `content`) values('1','1','2021-11-26 20:48:20','2021-11-26 20:48:27',NULL)
+
+            values = "(`title`, `type`, `createdAt`, `content`) values('{}','{}','{}','{}')".format(title,type_val,createdAt,content)
+            insert_data(con,"product",values)
+
+
+    elif options == 2:
         print(common_menu_banner.format("Product Category Table"))
 
     
