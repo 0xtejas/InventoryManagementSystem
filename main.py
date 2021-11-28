@@ -451,6 +451,23 @@ def order_table(options):
     
     elif options == 2:
         print(common_menu_banner.format("Order Item"))
+        inp = input("Enter your choice: ")
+        if inp == "1":
+            try:
+                productId = int(input("Enter the product ID: "))
+                itemId = int(input("Enter the item ID: "))
+                orderId = int(input("Enter the order ID: "))
+                sku = str(input("Enter the sku: "))
+                price = float(input("Enter the price: "))
+                discount = float(input("Enter the discount: "))
+                quantity = int(input("Enter the quantity: "))
+                now = datetime.now()
+                createdAt = now.strftime("%Y-%m-%d %H:%M:%S")
+                values = "(`productId`, `itemId`, `orderId`, `sku`, `price`, `discount`, `quantity`, `createdAt`, `updatedAt`) values('{}','{}','{}','{}','{}','{}','{}','{}',NULL);".format(productId,itemId,orderId,sku,price,discount,quantity,createdAt)
+            
+                insert_data(con,"order_item",values)
+            except mysql.connector.IntegrityError:
+                print("Check if the Product/Item ID exist in Product/Item Table")
 
 def item_table(options):
     if options == 1:
