@@ -581,7 +581,14 @@ def order_table(options):
                 myList = list(i)
                 myTable.add_row(myList)
             print(myTable)
-        
+        elif inp == "5":
+            cols = extract_column_names(con,"order_item")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"order_item")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)   
 
 
 def item_table(options):
