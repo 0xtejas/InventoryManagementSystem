@@ -277,7 +277,17 @@ def product_table(options):
             update_data(con,"product",f"`updatedAt` = '{updatedAt}'",f"`id` = '{id}'")
             con.commit()
             con.close()
-        
+        elif inp == "3":
+            cols = extract_column_names(con,"product")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"product")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+    
+            id = input("Enter ID: ")
+            delete_data(con, "product", f"`id` = '{id}'")
     elif options == 2:
         print(common_menu_banner.format("Product Category Table"))
 
