@@ -288,6 +288,47 @@ def product_table(options):
     
             id = input("Enter ID: ")
             delete_data(con, "product", f"`id` = '{id}'")
+        elif inp == "4":
+            cols = extract_column_names(con,"product")
+            index = 1
+            for i in cols:
+                print(f"{index}. {i}",end='\n')
+                index += 1
+            inp = input("Enter your choice: ")
+            if inp == "1":
+                id = input("Enter the ID: ")
+                values = search_data(con,"product","id = '{}'".format(id))
+            elif inp == "2":
+                title = input("Enter Title: ")
+                values = search_data(con,"product","title = '{}'".format(title))
+            elif inp == "3":
+                type_val = input("Enter Type: ")
+                values = search_data(con,"product","type = '{}'".format(type_val))
+            elif inp == "4":
+                createdAt = input("Enter Created At: ")
+                values = search_data(con,"product","createdAt = '{}'".format(createdAt))
+            elif inp == "5":
+                updatedAt = input("Enter Updated At: ")
+                values = search_data(con,"product","updatedAt = '{}'".format(updatedAt))
+            elif inp == "6":
+                content = input("Enter Content: ")
+                values = search_data(con,"product","content = '{}'".format(content))
+            else:
+                system("clear||cls")
+                print("Invalid Choice")
+                product_table()
+
+            cols = extract_column_names(con,"product")
+            myTable = PrettyTable(cols)
+            if len(values) == 0:
+                print("No data found")
+            else:
+                for i in values:
+                    myList = list(i)
+                    myTable.add_row(myList)
+                print(myTable)
+
+
     elif options == 2:
         print(common_menu_banner.format("Product Category Table"))
 
