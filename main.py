@@ -292,7 +292,7 @@ def product_table(options):
             cols = extract_column_names(con,"product")
             index = 1
             for i in cols:
-                print(f"{index}. {i}",end='\n')
+                print(f"{index}. Search {i}",end='\n')
                 index += 1
             inp = input("Enter your choice: ")
             if inp == "1":
@@ -389,6 +389,33 @@ def product_table(options):
 
             productId = input("Enter the product ID: ")
             delete_data(con, "product_category", f"`productId` = '{productId}'")
+        elif inp == "4":
+            cols = extract_column_names(con,"product_category")
+            index = 1
+            for i in cols:
+                print(f"{index}. search {i}",end='\n')
+                index += 1
+            inp = input("Enter your choice: ")
+            if inp == "1":
+                productId = input("Enter the product ID: ")
+                values = search_data(con,"product_category","productId = '{}'".format(productId))
+            elif inp == "2":
+                categoryId = input("Enter the category ID: ")
+                values = search_data(con,"product_category","categoryId = '{}'".format(categoryId))
+            else:
+                system("clear||cls")
+                print("Invalid Choice")
+                product_table(2)
+
+            cols = extract_column_names(con,"product_category")
+            myTable = PrettyTable(cols)
+            if len(values) == 0:
+                print("No data found")
+            else:
+                for i in values:
+                    myList = list(i)
+                    myTable.add_row(myList)
+                print(myTable)
 
 def order_table(options):
     con = mysql.connector.connect(
