@@ -375,7 +375,70 @@ def order_table(options):
             id = input("Enter ID: ")
             delete_data(con,"order",f"`id` = '{id}'")
         
-
+        elif inp == "4":
+            cols = extract_column_names(con,"order")
+            index = 1
+            for i in cols:
+                print(f"{index}. Select by {i}",end='\n')
+                index += 1
+            inp = input("Enter your choice: ")
+            if inp == "1":
+                Id = input("Enter ID: ")
+                values = search_data(con,"order",f"`id` = '{Id}'")
+            elif inp == "2":
+                userId = input("Enter userId: ")
+                values = search_data(con,"order",f"`userId` = '{userId}'")
+            elif inp == "3":
+                type_val = input("Enter the type: ")
+                values = search_data(con,"order",f"`type` = '{type_val}'")
+            elif inp == "4":
+                status = input("Enter the status: ")
+                values = search_data(con,"order",f"`status` = '{status}'")
+            elif inp == "5":
+                subTotal = input("Enter subTotal: ")
+                values = search_data(con,"order",f"`subTotal` = '{subTotal}'")
+            elif inp == "6":
+                itemDiscount = input("Enter itemDiscount: ")
+                values = search_data(con,"order",f"`itemDiscount` = '{itemDiscount}'")
+            elif inp == "7":
+                tax = input("Enter tax: ")
+                values = search_data(con,"order",f"`tax` = '{tax}'")
+            elif inp == "8":
+                shipping = input("Enter shipping: ")
+                values = search_data(con,"order",f"`shipping` = '{shipping}'")
+            elif inp == "9":
+                total = input("Enter total: ")
+                values = search_data(con,"order",f"`total` = '{total}'")
+            elif inp == "10":
+                promo = input("Enter promo: ")
+                values = search_data(con,"order",f"`promo` = '{promo}'")
+            elif inp == "11":
+                discount = input("Enter discount: ")
+                values = search_data(con,"order",f"`discount` = '{discount}'")
+            elif inp == "12":
+                grandTotal = input("Enter grandTotal: ")
+                values = search_data(con,"order",f"`grandTotal` = '{grandTotal}'")
+            elif inp == "13":
+                createdAt = input("Enter createdAt: ")
+                values = search_data(con,"order",f"`createdAt` = '{createdAt}'")
+            elif inp == "14":
+                updatedAt = input("Enter updatedAt: ")
+                values = search_data(con,"order",f"`updatedAt` = '{updatedAt}'")
+            elif inp == "15":
+                content = input("Enter content: ")
+                values = search_data(con,"order",f"`content` = '{content}'")
+            else:
+                system("clear||cls")
+                print("Invalid input!")
+                transaction_table()
+            
+            cols = extract_column_names(con,"order")
+            myTable = PrettyTable(cols)
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+    
         
     
     elif options == 2:
