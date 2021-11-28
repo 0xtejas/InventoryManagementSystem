@@ -378,7 +378,17 @@ def product_table(options):
                 
             con.commit()
             con.close()
-            
+        elif inp == "3":
+            cols = extract_column_names(con,"product_category")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"product_category")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+
+            productId = input("Enter the product ID: ")
+            delete_data(con, "product_category", f"`productId` = '{productId}'")
 
 def order_table(options):
     con = mysql.connector.connect(
