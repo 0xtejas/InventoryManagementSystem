@@ -327,8 +327,15 @@ def product_table(options):
                     myList = list(i)
                     myTable.add_row(myList)
                 print(myTable)
-
-
+        elif inp == "5":
+            cols = extract_column_names(con,"product")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"product")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+                  
     elif options == 2:
         print(common_menu_banner.format("Product Category Table"))
 
