@@ -348,7 +348,37 @@ def product_table(options):
 
             except mysql.connector.IntegrityError:
                 print("Check if the Product/Category ID exist in Product/Category Table")
-        
+        elif inp == "2":
+            cols = extract_column_names(con,"product_category")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"product_category")
+
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+
+            index = 1
+            for i in cols:
+                print(f"{index}. Update {i}",end='\n')
+                index += 1
+            inp = input("Enter your choice: ")    
+            productId = input("Enter the product ID: ")
+
+            if inp == "1":
+                productId_new = int(input("Enter the product ID: "))
+                update_data(con,"product_category",f"`productId` = '{productId_new}'",f"`productId` = '{productId}'")
+            elif inp == "2":
+                categoryId = int(input("Enter the category ID: "))
+                update_data(con,"product_category",f"`categoryId` = '{categoryId}'",f"`productId` = '{productId}'")
+            else:
+                system("clear||cls")
+                print("Invalid Choice")
+                product_table(2)
+                
+            con.commit()
+            con.close()
+            
 
 def order_table(options):
     con = mysql.connector.connect(
