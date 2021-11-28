@@ -468,6 +468,62 @@ def order_table(options):
                 insert_data(con,"order_item",values)
             except mysql.connector.IntegrityError:
                 print("Check if the Product/Item ID exist in Product/Item Table")
+        elif inp == "2":
+            cols = extract_column_names(con,"order_item")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"order_item")
+    
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+
+            index = 1
+            for i in cols[1:-1]:
+                print(f"{index}. Update {i}",end='\n')
+                index += 1
+    
+            inp = input("Enter your choice: ")    
+            id = input("Enter the ID: ")
+
+            if inp == "1":
+                try:
+                    productId_new = int(input("Enter the product ID: "))
+                    update_data(con,"order_item",f"`productId` = '{productId_new}'",f"`id` = '{id}'")
+                except mysql.connector.IntegrityError:
+                    print("Check if the Product ID exist in Product table")
+            elif inp == "2":
+                try:
+                    itemId_new = int(input("Enter the item ID: "))
+                    update_data(con,"order_item",f"`itemId` = '{itemId_new}'",f"`id` = '{id}'")
+                except mysql.connector.IntegrityError:
+                    print("Check if the Item ID exist in Item table")
+            elif inp == "3":
+                try:
+                    orderId_new = int(input("Enter the order ID: "))
+                    update_data(con,"order_item",f"`orderId` = '{orderId_new}'",f"`id` = '{id}'")
+                except mysql.connector.IntegrityError:
+                    print("Check if the Order ID exist in Order table")
+            elif inp == "4":
+                sku_new = str(input("Enter the sku: "))
+                update_data(con,"order_item",f"`sku` = '{sku_new}'",f"`id` = '{id}'")
+            elif inp == "5":
+                price_new = float(input("Enter the price: "))
+                update_data(con,"order_item",f"`price` = '{price_new}'",f"`id` = '{id}'")
+            elif inp == "6":
+                discount_new = float(input("Enter the discount: "))
+                update_data(con,"order_item",f"`discount` = '{discount_new}'",f"`id` = '{id}'")
+            elif inp == "7":
+                quantity_new = int(input("Enter the quantity: "))
+                update_data(con,"order_item",f"`quantity` = '{quantity_new}'",f"`id` = '{id}'")
+            elif inp == "8":
+                createdAt = input("Enter the createdAt: ")
+                update_data(con,"order_item",f"`createdAt` = '{createdAt}'",f"`id` = '{id}'")
+            
+            now = datetime.now()
+            updatedAt = now.strftime("%Y-%m-%d %H:%M:%S")
+            update_data(con,"order_item",f"`updatedAt` = '{updatedAt}'",f"`id` = '{id}'")
+
 
 def item_table(options):
     if options == 1:
