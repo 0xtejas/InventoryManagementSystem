@@ -335,11 +335,21 @@ def product_table(options):
                 myList = list(i)
                 myTable.add_row(myList)
             print(myTable)
-                  
+
     elif options == 2:
         print(common_menu_banner.format("Product Category Table"))
+        inp = input("Enter your choice: ")
+        if inp == "1":
+            try:
+                productId = int(input("Enter the product ID: "))
+                categoryId = int(input("Enter the category ID: "))
+                values = "(`productId`, `categoryId`) values('{}','{}');".format(productId,categoryId)
+                insert_data(con,"product_category",values)
 
-    
+            except mysql.connector.IntegrityError:
+                print("Check if the Product/Category ID exist in Product/Category Table")
+        
+
 def order_table(options):
     con = mysql.connector.connect(
         host='localhost',
