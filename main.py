@@ -534,6 +534,55 @@ def order_table(options):
 
             id = input("Enter ID: ")
             delete_data(con,"order_item",f"`id` = '{id}'")
+        elif inp == "4":
+            cols = extract_column_names(con,"order_item")
+            index = 1
+            for i in cols:
+                print(f"{index}. Select by {i}",end='\n')
+                index += 1
+            inp = input("Enter your choice: ")
+            if inp == "1":
+                id = input("Enter the ID: ")
+                values = search_data(con,"order_item",f"`id` = '{id}'")
+            elif inp == "2":
+                productId = int(input("Enter the product ID: "))
+                values = search_data(con,"order_item",f"`productId` = '{productId}'")
+            elif inp == "3":
+                itemId = int(input("Enter the item ID: "))
+                values = search_data(con,"order_item",f"`itemId` = '{itemId}'")
+            elif inp == "4":
+                orderId = int(input("Enter the order ID: "))
+                values = search_data(con,"order_item",f"`orderId` = '{orderId}'")
+            elif inp == "5":
+                sku = str(input("Enter the sku: "))
+                values = search_data(con,"order_item",f"`sku` = '{sku}'")
+            elif inp == "6":
+                price = float(input("Enter the price: "))
+                values = search_data(con,"order_item",f"`price` = '{price}'")
+            elif inp == "7":
+                discount = float(input("Enter the discount: "))
+                values = search_data(con,"order_item",f"`discount` = '{discount}'")
+            elif inp == "8":
+                quantity = int(input("Enter the quantity: "))
+                values = search_data(con,"order_item",f"`quantity` = '{quantity}'")
+            elif inp == "9":
+                createdAt = input("Enter the createdAt: ")
+                values = search_data(con,"order_item",f"`createdAt` = '{createdAt}'")
+            elif inp == "10":
+                updatedAt = input("Enter the updatedAt: ")
+                values = search_data(con,"order_item",f"`updatedAt` = '{updatedAt}'")
+            else:
+                system("clear||cls")
+                print("Invalid Input")
+            
+            cols = extract_column_names(con,"order_item")
+            myTable = PrettyTable(cols)
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+        
+
 
 def item_table(options):
     if options == 1:
