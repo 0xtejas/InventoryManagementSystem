@@ -234,12 +234,50 @@ def product_table(options):
             createdAt = now.strftime("%Y-%m-%d %H:%M:%S")
             content = input("Enter content: ")
 
-            #  (`title`, `type`, `createdAt`, `updatedAt`, `content`) values('1','1','2021-11-26 20:48:20','2021-11-26 20:48:27',NULL)
 
             values = "(`title`, `type`, `createdAt`, `content`) values('{}','{}','{}','{}')".format(title,type_val,createdAt,content)
             insert_data(con,"product",values)
+        elif inp == "2":
+            cols = extract_column_names(con,"product")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"product")
 
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
 
+            index = 1
+            cols.pop(4)
+            for i in cols[1:]:
+                print(f"{index}. Update {i}",end='\n')
+                index += 1
+            inp = input("Enter your choice: ")    
+            id = input("Enter the ID: ")
+
+            if inp == "1":
+                title_new = input("Enter Title: ")
+                update_data(con,"product",f"`title` = '{title_new}'",f"`id` = '{id}'")
+            elif inp == "2":
+                type_new = input("Enter Type: ")
+                update_data(con,"product",f"`type` = '{type_new}'",f"`id` = '{id}'")
+            elif inp == "3":
+                createdAt_new = input("Enter Created At: ")
+                update_data(con,"product",f"`createdAt` = '{createdAt_new}'",f"`id` = '{id}'")
+            elif inp == "4":
+                content_new = input("Enter Content: ")
+                update_data(con,"product",f"`content` = '{content_new}'",f"`id` = '{id}'")
+            else:
+                system("clear||cls")
+                print("Invalid Choice")
+                product_table()
+
+            now = datetime.now()
+            updatedAt = now.strftime("%Y-%m-%d %H:%M:%S")   
+            update_data(con,"product",f"`updatedAt` = '{updatedAt}'",f"`id` = '{id}'")
+            con.commit()
+            con.close()
+        
     elif options == 2:
         print(common_menu_banner.format("Product Category Table"))
 
