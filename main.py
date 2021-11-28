@@ -416,7 +416,15 @@ def product_table(options):
                     myList = list(i)
                     myTable.add_row(myList)
                 print(myTable)
-
+        elif inp == "5":
+            cols = extract_column_names(con,"product_category")
+            myTable = PrettyTable(cols)
+            values = display_data(con,"product_category")
+            for i in values:
+                myList = list(i)
+                myTable.add_row(myList)
+            print(myTable)
+            
 def order_table(options):
     con = mysql.connector.connect(
         host='localhost',
