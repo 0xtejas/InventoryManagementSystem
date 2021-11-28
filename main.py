@@ -467,7 +467,7 @@ def order_table(options):
             
                 insert_data(con,"order_item",values)
             except mysql.connector.IntegrityError:
-                print("Check if the Product/Item ID exist in Product/Item Table")
+                print("Check if the Product/Item/Order ID exist in Product/Item/Order Table")
         elif inp == "2":
             cols = extract_column_names(con,"order_item")
             myTable = PrettyTable(cols)
